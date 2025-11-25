@@ -1,0 +1,23 @@
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### gradle build files
+**/.gradle/
+**/gradle/
+**/build/
+!/build/libs/application.jar
+!/gradle/wrapper/gradle-wrapper.jar
+gradlew
+gradlew.bat

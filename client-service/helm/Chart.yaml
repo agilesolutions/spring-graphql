@@ -1,0 +1,5 @@
+apiVersion: v2
+name: client-service
+description: A Helm chart for deploying client SpringBoot micro-service
+version: 1.0.0
+appVersion: '@appVersion@'
