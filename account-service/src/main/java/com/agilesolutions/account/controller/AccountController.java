@@ -1,7 +1,7 @@
-package com.agilesolutions.client.controller;
+package com.agilesolutions.account.controller;
 
-import com.agilesolutions.client.domain.Client;
-import com.agilesolutions.client.service.ClientService;
+import com.agilesolutions.account.domain.Account;
+import com.agilesolutions.account.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,14 +23,14 @@ import reactor.core.publisher.Flux;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/clients")
-public class ClientController {
+@RequestMapping("/api/accounts")
+public class AccountController {
 
-    private final ClientService clientService;
+    private final AccountService accountService;
 
     @Operation(
-            summary = "Fetch all clients",
-            description = "REST API to fetch all clients from the database"
+            summary = "Fetch all accounts",
+            description = "REST API to fetch all accounts from the database"
     )
     @ApiResponses({
             @ApiResponse(
@@ -47,9 +47,9 @@ public class ClientController {
     }
     )
     @GetMapping(produces = "application/json")
-    public Flux<Client> getAllClients() {
-        log.info("Fetching all clients");
-        return clientService.findAllClients();
+    public Flux<Account> getAllAccounts() {
+        log.info("Fetching all accounts");
+        return accountService.findAllAccounts();
     }
 
 }
