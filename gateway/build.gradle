@@ -52,11 +52,16 @@ dependencies {
 
 
     // Actuator and Micrometer, Prometheus setups
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
 
+    // swagger ui for testing
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.8.9")
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-api:2.8.9")
 
     // tests
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.graphql:spring-graphql-test'
 }
 
 

@@ -1,5 +1,6 @@
 server:
-  port: 8080
+  port: 8082
+
 
 management:
   endpoint:
@@ -11,37 +12,23 @@ management:
     web:
       exposure:
         include: health,metrics,prometheus
-  metrics:
-    mongo:
-      command:
-        enabled: false
     export:
       prometheus:
         enabled: true
 
 spring:
   application:
-    name: client-service
-  jpa:
-    defer-datasource-initialization: true
-    database-platform: org.hibernate.dialect.H2Dialect
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create-drop
-  datasource:
-    url: r2dbc:h2:mem:///test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password: password
-    # driverClassName: org.h2.Driver
-  h2:
-    console:
+    name: gateway
+  graphql:
+    graphiql:
+      path: /graphiql
       enabled: true
 
 
 springdoc:
-#  enable-spring-security: true
-#  show-login-endpoint: true
-#  show-oauth2-endpoints: true
+  #  enable-spring-security: true
+  #  show-login-endpoint: true
+  #  show-oauth2-endpoints: true
   show-actuator: true
   api-docs:
     path: /v3/api-docs
@@ -50,6 +37,7 @@ springdoc:
     operations-sorter: method
     tags-sorter: alpha
 
+
 logging:
   level:
     root: INFO
@@ -57,3 +45,9 @@ logging:
     org.springframework.jpa: DEBUG
     org.springframework.mongo: DEBUG
     org.springframework.security: DEBUG
+    org.springframework.graphql: DEBUG
+
+twelvedata:
+  api:
+    url: https://api.twelvedata.com/
+    key: demo
