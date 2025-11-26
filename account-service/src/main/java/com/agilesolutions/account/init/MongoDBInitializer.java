@@ -24,11 +24,11 @@ public class MongoDBInitializer implements CommandLineRunner {
 
 
         accountRepository.saveAll(List.of(
-                Account.builder().id("1").maturityDate(LocalDate.now()).openingDayBalance(1.2F).amount(100).description("Personal Account").lineOfBusiness("Retail").number("ACC001").build(),
-                Account.builder().id("2").maturityDate(LocalDate.now()).openingDayBalance(2.5F).amount(200).description("Business Account").lineOfBusiness("Corporate").number("ACC002").build(),
-                Account.builder().id("3").maturityDate(LocalDate.now()).openingDayBalance(3.0F).amount(300).description("Savings Account").lineOfBusiness("Retail").number("ACC003").build(),
-                Account.builder().id("4").maturityDate(LocalDate.now()).openingDayBalance(4.5F).amount(400).description("Investment Account").lineOfBusiness("Corporate").number("ACC004").build(),
-                Account.builder().id("5").maturityDate(LocalDate.now()).openingDayBalance(5.0F).amount(500).description("Joint Account").lineOfBusiness("Retail").number("ACC005").build()
+                Account.builder().id("1").clientId(1L).maturityDate(LocalDate.now()).openingDayBalance(1.2F).amount(100).description("Personal Account").lineOfBusiness("Retail").number("ACC001").build(),
+                Account.builder().id("2").clientId(2L).maturityDate(LocalDate.now()).openingDayBalance(2.5F).amount(200).description("Business Account").lineOfBusiness("Corporate").number("ACC002").build(),
+                Account.builder().id("3").clientId(3L).maturityDate(LocalDate.now()).openingDayBalance(3.0F).amount(300).description("Savings Account").lineOfBusiness("Retail").number("ACC003").build(),
+                Account.builder().id("4").clientId(4L).maturityDate(LocalDate.now()).openingDayBalance(4.5F).amount(400).description("Investment Account").lineOfBusiness("Corporate").number("ACC004").build(),
+                Account.builder().id("5").clientId(5L).maturityDate(LocalDate.now()).openingDayBalance(5.0F).amount(500).description("Joint Account").lineOfBusiness("Retail").number("ACC005").build()
         ));
 
         log.info("MongoDB records saved successfully-------");

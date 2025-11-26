@@ -11,10 +11,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.ErrorResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+
+import java.util.List;
 
 @Tag(
         name = "CRUD REST APIs to CREATE, READ, UPDATE, DELETE clients",
@@ -46,10 +46,10 @@ public class AccountController {
             )
     }
     )
-    @GetMapping(produces = "application/json")
-    public Flux<Account> getAllAccounts() {
+    @PostMapping(produces = "application/json")
+    public Flux<Account> getAllAccounts(@RequestBody List<Long> clientIds) {
         log.info("Fetching all accounts");
-        return accountService.findAllAccounts();
+        return accountService.findAllAccounts(clientIds);
     }
 
 }

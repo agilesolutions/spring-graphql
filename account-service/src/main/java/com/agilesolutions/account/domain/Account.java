@@ -14,6 +14,11 @@ public record Account (
                 description = "Unique id of account", example = "1"
         )
         String id,
+        @NotNull(message = "clientId can not be null")
+        @Schema(
+                description = "Client ID of account", example = "1"
+        )
+        Long clientId,
         @NotEmpty(message = "number can not be a null or empty")
         @Schema(
                 description = "Number of account", example = "AMS"

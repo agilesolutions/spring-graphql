@@ -20,6 +20,11 @@ public class Account {
     @Id
     private String id;
 
+    @NotNull
+    @Positive(message = "Account.client id must be a positive number")
+    private Long clientId;
+
+
     @NotBlank(message = "Account.number must be present")
     private String number;
 
@@ -30,11 +35,11 @@ public class Account {
     private String lineOfBusiness;
 
     @NotNull
-    @Positive(message = "movieInfo.amount must be a positive")
+    @Positive(message = "Account.amount must be a positive number")
     private Integer amount;
 
     @NotNull
-    @Positive(message = "movieInfo.openingDayBalance must be a positive")
+    @Positive(message = "Account.openingDayBalance must be a positive number")
     private Float openingDayBalance;
 
     private LocalDate maturityDate;
