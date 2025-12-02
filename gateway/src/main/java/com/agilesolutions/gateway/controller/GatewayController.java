@@ -48,10 +48,11 @@ public class GatewayController {
 
         var accounts = accountHttpClient.getAllAccounts(clientIds);
 
-        accounts.map(account -> {
+        var updateAccounts = accounts.map(account -> {
             log.info("Fetched account: {}", account);
-            return Account.builder()
-                    .openingDayBalance(stockService.getLatestStockPrices(account.number()).price())
+            Float balance = stockService.getLatestStockPrices(account.number()).price();
+            Account newAccount =  Account.builder()
+                    .openingDayBalance(balance)
                     .number(account.number())
                     .clientId(account.clientId())
                     .description(account.description())
@@ -59,9 +60,13 @@ public class GatewayController {
                     .maturityDate(account.maturityDate())
                     .amount(account.amount())
                     .build();
-        });
 
-        return accounts.collectList()
+            return newAccount;
+        })
+        .onErrorResume(Flux::error);
+
+
+        return updateAccounts.collectList()
                 .map(accountList -> {
 
                     Map<Long, List<Account>> collect = accountList.stream()
