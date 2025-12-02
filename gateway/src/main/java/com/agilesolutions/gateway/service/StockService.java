@@ -7,14 +7,17 @@ import com.agilesolutions.gateway.dto.StockDto;
 import com.agilesolutions.gateway.rest.StockHttpClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @Slf4j
 @AllArgsConstructor
 public class StockService {
 
-    private final StockHttpClient stockClient;
+    private final RestTemplate stockClient;
 
     private final ApplicationProperties applicationProperties;
 
@@ -23,8 +26,16 @@ public class StockService {
 
     public StockDto getLatestStockPrices(String company) {
 
+
         log.info("Get stock prices for: {}", company);
-        StockData data = stockClient.getLatestStockPrices(company, MINUTE_INTERVAL, 1, applicationProperties.getKey());
+
+        StockData data = stockClient.getForObject(applicationProperties.getUrl() + "/time_series?symbol={symbol}&interval={interval}&outputsize={outputsize}&apikey={apikey}",
+                StockData.class,
+                company,
+                MINUTE_INTERVAL,
+                1,
+                applicationProperties.getKey());
+
         DailyStockData latestData = data.getValues().get(0);
         log.info("Get stock prices ({}) -> {}", company, latestData.getClose());
         return new StockDto(Float.parseFloat(latestData.getClose()));
