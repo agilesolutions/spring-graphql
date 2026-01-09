@@ -295,15 +295,6 @@ The application is integrated with Prometheus and Grafana for monitoring, and El
 - Grafana: [http://localhost:3000](http://localhost:3000) (default username: admin, password: admin)
 - Kibana: [http://localhost:5601](http://localhost:5601) (default username: elastic, password: changeme)
 
-## Contributing
-Contributions are welcome! Please feel free to submit a pull request or open an issue if you find any bugs or have suggestions for improvements.
-
-## Contact
-For any questions or inquiries, please contact the project maintainer at robert.rong@agile-solutions.ch
-
-## Acknowledgements
-This project is inspired by various open-source projects and tutorials. Special thanks to the Spring Boot community for their contributions and support.
-
 ## References
 - [Spring Boot Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
 - [GitLab CI/CD Documentation](https://docs.gitlab.com/ee/ci/)
