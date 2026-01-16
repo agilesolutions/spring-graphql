@@ -19,6 +19,19 @@ management:
 spring:
   application:
     name: gateway
+  security:
+    oauth2:
+      client:
+        registration:
+          my-client:
+            provider: my-provider
+            authorization-grant-type: client_credentials
+            client-id: my-client-id
+            client-secret: my-client-secret
+        provider:
+          my-provider:
+            token-uri: http://localhost:8080/oauth2/token
+
   graphql:
     graphiql:
       path: /graphiql

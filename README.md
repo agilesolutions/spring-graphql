@@ -4,33 +4,32 @@ This project is much more than what the name suggests.
 ```
 Note: This service is implemented as a Spring Boot monolith to demonstrate cross-cutting Spring Framework features such as security, scalability, service integration, and more. The design choices are intentional for this context and are not intended to represent microservices best practices.
 ```
-## Overview
+## Feature list
 This project is a comprehensive Spring Boot application that integrates various technologies and frameworks to provide a robust and scalable solution. The application demonstrates the following key features:
-- RESTful API development with Spring Boot
-- Integration with relational databases using Spring Data JPA
-- Integration with NoSQL databases using Spring Data MongoDB
-- Spring Cloud OpenFeign for declarative REST client
-- Spring Cloud Gateway for API Gateway
-- Spring Cloud Config for externalized configuration management
-- Spring Cloud Netflix Eureka for service discovery
-- Spring Cloud Netflix Hystrix for circuit breaker pattern
-- Spring Cloud Sleuth and Zipkin for distributed tracing
-- Spring Cloud Eureka for service discovery
-- Messaging with Apache Kafka using Spring Kafka
-- Containerization with Docker
-- Deployment to Kubernetes using Helm and Kustomize
-- Continuous Integration and Continuous Deployment (CI/CD) using GitLab CI/CD and FluxCD
-- Monitoring and logging with Prometheus, Grafana, and the ELK stack (Elasticsearch, Logstash, Kibana)
-- Security with Spring Security, OAuth2, and JWT
-- Controller advice and Problem+JSON error handling
-- Declarative REST client
-- Spring Scheduler for scheduled tasks
-- Kubernetes readiness checks and custom health indicator to enabling graceful shutdown
-- Actuator for monitoring and management
+- Oauth2.0 credential grant flow implementation with Spring Security 6.4 Oauth2 Resource Server and Client
+- Spring Boot 3.2.x with Java 21
+- Gradle build system
+- RESTful API development with Spring Web MVC
+- Apache Avro for data serialization and deserialization
+- Apache Kafka integration using Spring Kafka
+- MongoDB integration using Spring Data MongoDB
+- Integration with external RESTful services using RestTemplate and WebClient
+- GraphQL API development using Spring GraphQL
+- Exception handling with Controller Advice and Problem+JSON
+- Input validation using Spring Validation
+- Scheduling tasks using Spring Scheduler
+- Retry mechanism using Spring Retry
+- Spring Boot Actuator for monitoring and management
+- Micrometer for application metrics
 - OpenAPI/Swagger for API documentation
 - Testing with JUnit, Mockito, Testcontainers, and WireMock
-- Kubernetes manifests for deployment
-- Avro for data serialization
+- Dockerfile for containerization
+- Helm charts for Kubernetes deployment
+- Kustomize for Kubernetes manifest customization
+- CI/CD pipeline using GitLab CI/CD and FluxCD
+- Monitoring with Prometheus and Grafana
+- Logging with ELK stack (Elasticsearch, Logstash, Kibana)
+- Integration tests with Testcontainers for PostgreSQL, MongoDB, and Kafka
 - Lombok for reducing boilerplate code
 - Spring AMQP for RabbitMQ integration
 - Spring Cloud Stream for building message-driven microservices and Async communication
@@ -39,6 +38,31 @@ This project is a comprehensive Spring Boot application that integrates various 
 - Spring REST Docs for API documentation
 - Spring Validation for input validation
 - Spring Retry for retrying operations
+- Database migrations using Flyway
+- Caching with Spring Cache and Redis
+- Internationalization (i18n) support
+- Asynchronous processing with Spring Async
+- WebSocket support with Spring WebSocket
+- OAuth2 client and resource server setup with JWT validation
+- Method-level security with @PreAuthorize annotations
+- Custom JwtAuthenticationConverter for extracting roles from JWT
+- In-memory user details service for authentication
+- BCryptPasswordEncoder for password hashing
+- Security event logging for auditing and monitoring
+- Graceful shutdown with Kubernetes readiness checks and custom health indicators
+- Distributed tracing with Spring Cloud Sleuth and Zipkin
+- Circuit breaker pattern with Spring Cloud Netflix Hystrix
+- Service discovery with Spring Cloud Netflix Eureka
+- Externalized configuration management with Spring Cloud Config
+- API Gateway with Spring Cloud Gateway
+- Declarative REST client with Spring Cloud OpenFeign
+- Integration with relational databases using Spring Data JPA
+- Integration with NoSQL databases using Spring Data MongoDB
+- Spring Cloud OpenFeign for declarative REST client
+- Continuous Integration and Continuous Deployment (CI/CD) using GitLab CI/CD and FluxCD
+- Monitoring and logging with Prometheus, Grafana, and the ELK stack (Elasticsearch, Logstash, Kibana)
+- Security with Spring Security, OAuth2, and JWT
+- Controller advice and Problem+JSON error handling
 
 ## Overview Platform Architecture
 This diagram illustrates the architecture of the Spring Boot application and its integration with various components and services.
@@ -56,72 +80,53 @@ This diagram illustrates the architecture of the Spring Boot application and its
 
 ## Project Structure
 ```
-kotlinspring/
+spring-graphql/
+├── Dockerfile
+├── .gitlab-ci.yml
 ├── build.gradle
 ├── settings.gradle
+├── README.md
+├── gateway/
+│   └── GatewayApplication.java
 ├── src/
 │   ├── main/
 │   │   ├── java/
-│   │   │   └── com/agilesolutions/
-│   │   │       ├── AllInOneApplication.java     
-│   │   │       ├── actuator/
-│   │   │       │   ├── CustomHealthCheck.java
-│   │   │       │   ├── CustomMongoHealthInducator.java  
-│   │   │       │   └── HealthService.java        
-│   │   │       ├── config/
-│   │   │       │   ├── ApplicationProperties.java
-│   │   │       │   ├── KafkaConfig.java
-│   │   │       │   ├── MongoDBConfig.java  
-│   │   │       │   ├── MvcConfig.java  
-│   │   │       │   └── RestConfig.java        
+│   │   │   └── com/example/springgraphql/
 │   │   │       ├── controller/
-│   │   │       │   └── StockControllerjava
-│   │   │       ├── dto/
-│   │   │       │   ├── ShareDto.java
-│   │   │       │   └── StockResponse.java
-│   │   │       ├── exception/
-│   │   │       │   ├── BusinessException.java
-│   │   │       │   ├── CustomontrollerAdvice.java
-│   │   │       │   └── Problemjava
-│   │   │       ├── init/
-│   │   │       │   ├── KafkaInitializer.java
-│   │   │       │   └── MongoDBInitializer.java
-│   │   │       ├── jpa/
-│   │   │       │   └── JPA packages and components...
-│   │   │       ├── kafka/
-│   │   │       │   └── Kafka packages and components...
+│   │   │       ├── service/
 │   │   │       ├── model/
-│   │   │       │   └── StockData.java
-│   │   │       ├── mongo/
-│   │   │       │   └── MongoDB packages and components...
-│   │   │       ├── mvc/
-│   │   │       │   ├── AvroDeserelizer.java
-│   │   │       │   └── AvroSerializer.java
-│   │   │       ├── rest/
-│   │   │       │   └── StockClient.java
-│   │   │       └── service/
-│   │   │           └── StockService.java
+│   │   │       ├── repository/
+│   │   │       ├── config/
+│   │   │       └── SpringGraphqlApplication.java
 │   │   └── resources/
-│   │   ├── rest/
-│   │       └── share.avsc -- Avro schema
-│   │   ├── application.yml
-│   │   └── data.yml -- initial load scripts
-├── docker/
-│   └── Dockerfile
-├── helm/
-│   └── kotlinspring/
-│       ├── Chart.yaml
-│       ├── values.yaml
+│   │       ├── application.yml
+│   │       ├── schema/
+│   │       └── static/
+│   └── test/
+│       └── java/
+│           └── com/example/springgraphql/
+│               ├── controller/
+│               ├── service/
+│               └── SpringGraphqlApplicationTests.java
+├── kustomize/
+│   ├── base/
+│   └── overlays/
+│       ├── local/
+│       ├── staging/
+│       └── production/
+├── charts/
+│   └── spring-graphql/
 │       ├── templates/
-│       │   ├── deployment.yaml
-│       │   ├── service.yaml
-│       │   └── ingress.yaml
-└── kustomize/
-    └── base/
-        ├── kustomization.yaml
-        ├── deployment.yaml
-        ├── service.yaml
-        └── ingress.yaml
+│       └── Chart.yaml
+└── metrics/
+    ├── prometheus-deployment.yaml
+    ├── prometheus-service.yaml
+    ├── grafana-deployment.yaml
+    └── grafana-service.yaml
+├── account-service/ (another microservice)
+│   └── ...
+├── client-service/ (another microservice)
+│   └── ...
 ```
 ## Build and Run the Application
 This will Gradle build, test and package SpringBoot jar. Accordingly build a docker image, ready to get deployed to Kubernetes with Kustomize overlay local. 
