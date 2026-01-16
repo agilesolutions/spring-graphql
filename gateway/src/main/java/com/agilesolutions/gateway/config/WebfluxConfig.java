@@ -27,9 +27,4 @@ public class WebfluxConfig {
                 .createClient(AccountHttpClient.class);
     }
 
-    @Bean
-    public WebClient webClient(WebClient.Builder builder) {
-        return builder.build();
-    }
-
 }
