@@ -5,75 +5,56 @@ import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.client.*;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebFluxSecurity
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+@EnableReactiveMethodSecurity
 @AllArgsConstructor
 public class WebSecurity {
 
-    private static final String[] WHITELIST = {"/healthCheck","actuator", "/swagger-ui.html"};
+    private static final String[] WHITELIST = {"/healthCheck",
+            "actuator",
+            "graphql",
+            "/v3/api-docs/**",
+            "/api/accounts/**",
+            "/oauth2/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"};
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .cors(c -> c.disable())
-                .csrf(c -> c.disable())
-                .authorizeHttpRequests(a ->
-                        a.requestMatchers(
-                                        new AntPathRequestMatcher("/login"),
-                                        new AntPathRequestMatcher("/oauth2/**"),
-                                        new AntPathRequestMatcher("/openid-connect"),
-                                        new AntPathRequestMatcher("/error"),
-                                        new AntPathRequestMatcher("/css/**"),
-                                        new AntPathRequestMatcher("/js/**"),
-                                        new AntPathRequestMatcher("/images/**"),
-                                        new AntPathRequestMatcher("/actuator/**"),
-                                        new AntPathRequestMatcher("/v3/api-docs/**"),
-                                        new AntPathRequestMatcher("/swagger-ui.html"),
-                                        new AntPathRequestMatcher("/swagger-ui/**"),
-                                        new AntPathRequestMatcher("/.well-known/**"),
-                                        new AntPathRequestMatcher("/oauth-client/**"),
-                                        new AntPathRequestMatcher("/assets/**"))
-                                .permitAll()
-                                .anyRequest().authenticated())
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt
-                                .decoder(jwtDecoder())
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter()))
-                )
-                //.oauth2Login(customizer -> customizer.successHandler(successHandler()))
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) throws Exception {
+
+        return http.
+                cors(c -> c.disable()).
+                csrf(c -> c.disable()).
+                authorizeExchange(exchanges -> exchanges
+                        .pathMatchers(WHITELIST).permitAll()
+                        .anyExchange().authenticated())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtSpec ->
+                                jwtSpec.jwtDecoder(jwtDecoder()).
+                                jwtAuthenticationConverter(jwtAuthenticationConverter())))
                 .build();
     }
 
-    /**
-     * Map custom JWT claims into Spring Security authorities.
-     * Example: "roles": ["admin", "user"] -> ROLE_ADMIN, ROLE_USER
-     */
-    @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(this::extractAuthoritiesFromJwt);
-        return converter;
-    }
+
     private Collection<GrantedAuthority> extractAuthoritiesFromJwt(Jwt jwt) {
         // Map "roles" claim to ROLE_* authorities
         Collection<String> roles = jwt.getClaimAsStringList("roles");
@@ -87,8 +68,17 @@ public class WebSecurity {
     }
 
     @Bean
-    public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withJwkSetUri("http://localhost:8080/.well-known/jwks.json").build();
+    public ReactiveJwtDecoder jwtDecoder() {
+        return NimbusReactiveJwtDecoder.withJwkSetUri("http://localhost:8082/.well-known/jwks.json").build();
+    }
+
+    @Bean
+    public Converter<Jwt, ? extends Mono<? extends AbstractAuthenticationToken>> jwtAuthenticationConverter() {
+        return new ReactiveJwtAuthenticationConverterAdapter(jwt -> {
+            JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+            converter.setJwtGrantedAuthoritiesConverter(this::extractAuthoritiesFromJwt);
+            return converter.convert(jwt);
+        });
     }
 
 
