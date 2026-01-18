@@ -12,16 +12,16 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 public class WebfluxConfig {
 
     @Bean
-    public ClientHttpClient clientHttpProxy(WebClient.Builder builder) {
-        var wca = WebClientAdapter.create(builder.baseUrl("http://localhost:8080").build());
+    public ClientHttpClient clientHttpProxy(WebClient client) {
+        var wca = WebClientAdapter.create(client.mutate().baseUrl("http://localhost:8080").build());
         return HttpServiceProxyFactory.builderFor(wca)
                 .build()
                 .createClient(ClientHttpClient.class);
     }
 
     @Bean
-    public AccountHttpClient accountHttpProxy(WebClient.Builder builder) {
-        var wca = WebClientAdapter.create(builder.baseUrl("http://localhost:8081").build());
+    public AccountHttpClient accountHttpProxy(WebClient client) {
+        var wca = WebClientAdapter.create(client.mutate().baseUrl("http://localhost:8081").build());
         return HttpServiceProxyFactory.builderFor(wca)
                 .build()
                 .createClient(AccountHttpClient.class);

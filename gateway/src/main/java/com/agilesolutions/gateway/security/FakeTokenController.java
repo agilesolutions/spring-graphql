@@ -5,10 +5,12 @@ import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.RSASSASigner;
+import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,5 +57,10 @@ public class FakeTokenController {
                 "token_type", "Bearer",
                 "expires_in", 3600
         );
+    }
+
+    @GetMapping("/.well-known/jwks.json")
+    public String keys() {
+        return new JWKSet(rsaKey.toPublicJWK()).toString();
     }
 }

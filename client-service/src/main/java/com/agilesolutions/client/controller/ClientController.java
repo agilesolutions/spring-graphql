@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +48,7 @@ public class ClientController {
     }
     )
     @GetMapping(produces = "application/json")
+    @PreAuthorize("hasRole('ADMIN')")
     public Flux<Client> getAllClients() {
         log.info("Fetching all clients");
         return clientService.findAllClients();
