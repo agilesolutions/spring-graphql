@@ -169,11 +169,11 @@ bootJar {
 }
 
 task dockerBuild(type: Exec) {
-    commandLine 'docker', 'build', '-t', "agilesolutions/allinone:${version}", '.'
+    commandLine 'docker', 'build', '-t', "agilesolutions/gateway:${version}", '.'
 }
 
 task dockerPush(type: Exec) {
-    commandLine 'docker', 'push', "agilesolutions/allinone:${version}"
+    commandLine 'docker', 'push', "agilesolutions/gateway:${version}"
 }
 
 task release(type: GradleBuild) {
