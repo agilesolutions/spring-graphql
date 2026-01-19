@@ -1,15 +1,12 @@
 package com.agilesolutions.gateway.service;
 
-import com.agilesolutions.gateway.config.ApplicationProperties;
+import com.agilesolutions.gateway.config.TwelveDataProperties;
 import com.agilesolutions.gateway.domain.DailyStockData;
 import com.agilesolutions.gateway.domain.StockData;
 import com.agilesolutions.gateway.dto.StockDto;
-import com.agilesolutions.gateway.rest.StockHttpClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -19,7 +16,7 @@ public class StockService {
 
     private final RestTemplate stockClient;
 
-    private final ApplicationProperties applicationProperties;
+    private final TwelveDataProperties applicationProperties;
 
     private static final String MINUTE_INTERVAL = "1min";
     private static final String DAY_INTERVAL = "1day";

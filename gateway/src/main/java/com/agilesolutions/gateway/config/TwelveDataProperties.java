@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "twelvedata.api")
 @Data
-public class ApplicationProperties {
+public class TwelveDataProperties {
 
     private String key;
 
