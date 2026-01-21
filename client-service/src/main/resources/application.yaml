@@ -62,3 +62,6 @@ logging:
     org.springframework.jpa: DEBUG
     org.springframework.mongo: DEBUG
     org.springframework.security: DEBUG
+
+authorization-server:
+  url: http://localhost:8082

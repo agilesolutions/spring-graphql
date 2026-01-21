@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: client-service
-  namespace: client-service
+  namespace: services
   labels:
     app: client-service
 spec:
@@ -20,25 +20,3 @@ spec:
           image: agilesolutions/client-service:1.0.1
           ports:
             - containerPort: 8080
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8080
-            initialDelaySeconds: 10
-            timeoutSeconds: 3
-            periodSeconds: 5
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 10
-            timeoutSeconds: 3
-            periodSeconds: 5
-            failureThreshold: 15
-          lifecycle:
-            preStop:
-              httpGet:
-                path: /unhealthy
-                port: http

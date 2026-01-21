@@ -141,12 +141,21 @@ This will compile the code, run tests, and create a JAR file in the `build/libs`
 ### Run the application
 You can run the application using the following command:
 ```bash
-gradle release # compile, test, package and docker build
-kubectl apply -k ./kustomize/overlays/local # kustomize deploy springboot deployment and service
+gradle release # compile, test, package and docker build each microservices
+kubectl apply -k ./kustomize/overlays/local # kustomize deploy gateway, client-service and account-service to local k8s cluster
 kubectl apply -f ./metrics # deploy k8s deployments and services to run Prometheus and Grafana.
-kubectl logs -f -n allinone -l app=allinone # check the logs on springboot
+kubectl logs -f -n services -l app=gateway # check logs gateway service
+kubectl logs -f -n services -l app=client-service # tail the logs on client-service
+kubectl logs -f -n services -l app=account-service # tail the logs on account-service
 kubectl logs -f -n monitoring -l app=prometheus # tail the logs on prometheus
 kubectl logs -f -n monitoring -l app=grafana # tail the logs on grafana
+```
+Check the actuator endpoints from within the k8s cluster
+```
+kubectl run curl --image=appropriate/curl -n services -it --restart=Never -- sh
+curl http://client-service:8080/actuator # check client-service actuator endpoint
+curl http://account-service:8081/actuator # check account-service actuator endpoint
+curl http://gateway:8082/actuator # check gateway actuator endpoint
 ```
 
 - [Swagger UI](http://localhost:30080/swagger-ui.html)

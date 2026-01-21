@@ -1,5 +1,6 @@
 package com.agilesolutions.client.security;
 
+import com.agilesolutions.client.config.AuthorizationServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -33,7 +34,7 @@ public class WebSecurityConfiguration {
             "/swagger-ui.html"};
 
     @Bean
-    SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) throws Exception {
+    SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http, AuthorizationServerProperties authorizationServerProperties) throws Exception {
         http
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
@@ -41,14 +42,14 @@ public class WebSecurityConfiguration {
                         .pathMatchers(WHITELIST).permitAll()
                         .anyExchange().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtSpec ->
-                        jwtSpec.jwtDecoder(jwtDecoder()).
+                        jwtSpec.jwtDecoder(jwtDecoder(authorizationServerProperties)).
                                 jwtAuthenticationConverter(jwtAuthenticationConverter())));
         return http.build();
     }
 
     @Bean
-    public ReactiveJwtDecoder jwtDecoder() {
-        return NimbusReactiveJwtDecoder.withJwkSetUri("http://localhost:8082/.well-known/jwks.json").build();
+    public ReactiveJwtDecoder jwtDecoder(AuthorizationServerProperties authorizationServerProperties) {
+        return NimbusReactiveJwtDecoder.withJwkSetUri(authorizationServerProperties.getUrl() + "/.well-known/jwks.json").build();
     }
 
     @Bean

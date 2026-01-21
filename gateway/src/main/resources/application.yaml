@@ -66,5 +66,5 @@ twelvedata:
     key: demo
 
 service:
-  client-service-url: http://localhost:8080/api/clients
-  account-service-url: http://localhost:8081/api/accounts
+  client-service-url: http://localhost:8080
+  account-service-url: http://localhost:8081
