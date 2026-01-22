@@ -1,5 +1,7 @@
 # ShowCase project for Spring Boot with GraphQL
 This project is much more than what the name suggests. It demonstrates how to run Springboot microservices on a local Kubernetes cluster with Kustomize and Helm charts, integrated with Prometheus and Grafana for monitoring, and ELK stack for logging. The project also showcases a comprehensive CI/CD pipeline using GitLab CI/CD and FluxCD for continuous deployment.
+## Demonstration Outcomes
+This project aims to demonstrate the following outcomes:
 - How to build, run, and deploy a Spring Boot application with various integrations and features commonly used in modern microservices architecture.
 - How to protect REST endpoints using Spring Security with Oauth2.0 and JWT, how to collect and visualize application metrics using Micrometer, Prometheus, and Grafana.
 - How to integrate multiple RESTful services, databases, and messaging systems using Spring Data JPA, Spring Data MongoDB, Spring Kafka, and more.
