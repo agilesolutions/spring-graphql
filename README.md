@@ -1,5 +1,16 @@
 # ShowCase project for Spring Boot with GraphQL
-This project is much more than what the name suggests. 
+This project is much more than what the name suggests. It demonstrates how to run Springboot microservices on a local Kubernetes cluster with Kustomize and Helm charts, integrated with Prometheus and Grafana for monitoring, and ELK stack for logging. The project also showcases a comprehensive CI/CD pipeline using GitLab CI/CD and FluxCD for continuous deployment.
+- How to build, run, and deploy a Spring Boot application with various integrations and features commonly used in modern microservices architecture.
+- How to protect REST endpoints using Spring Security with Oauth2.0 and JWT, how to collect and visualize application metrics using Micrometer, Prometheus, and Grafana.
+- How to integrate multiple RESTful services, databases, and messaging systems using Spring Data JPA, Spring Data MongoDB, Spring Kafka, and more.
+- How to validate and handle exceptions in a standardized way using Spring Validation and Controller Advice with Problem+JSON.
+- How to document APIs using OpenAPI/Swagger and Spring REST Docs.
+- How to test the application using JUnit, Mockito, Testcontainers, and WireMock.
+- How to containerize the application using Docker and deploy it to a Kubernetes cluster using Helm charts and Kustomize.
+- How to set up a CI/CD pipeline using GitLab CI/CD and FluxCD for continuous deployment to Kubernetes.
+- How to monitor and log the application using Prometheus, Grafana, and the ELK stack (Elasticsearch, Logstash, Kibana).
+- How to implement cross-cutting concerns such as security, scalability, service integration, and more using Spring Boot and related technologies.
+- How to integrate GraphQL API using Spring GraphQL and demonstrate its usage alongside RESTful APIs.
 
 ```
 Note: This service is implemented as a Spring Boot monolith to demonstrate cross-cutting Spring Framework features such as security, scalability, service integration, and more. The design choices are intentional for this context and are not intended to represent microservices best practices.
