@@ -1,4 +1,4 @@
-# ShowCase project for Spring Boot with GraphQL
+# Project showcasing Spring Boot microservices with GraphQL, Oauth2.0, Prometheus, Grafana, GitLab CI/CD, and FluxCD on Kubernetes
 This project is much more than what the name suggests. It demonstrates how to run Springboot microservices on a local Kubernetes cluster with Kustomize and Helm charts, integrated with Prometheus and Grafana for monitoring, and ELK stack for logging. The project also showcases a comprehensive CI/CD pipeline using GitLab CI/CD and FluxCD for continuous deployment.
 ## Demonstration Outcomes
 This project aims to demonstrate the following outcomes:
