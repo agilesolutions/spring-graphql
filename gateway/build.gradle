@@ -55,7 +55,9 @@ dependencies {
 
 
     // Actuator and Micrometer, Prometheus setups
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
 
     // swagger ui for testing

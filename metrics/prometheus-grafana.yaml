@@ -17,19 +17,19 @@ data:
       - job_name: 'prometheus'
         static_configs:
           - targets: ['localhost:9090']
-
       # Scrape Spring Boot app actuator endpoint
-      - job_name: 'springboot-app'
+      - job_name: 'gateway'
         metrics_path: '/actuator/prometheus'
-        kubernetes_sd_configs:
-          - role: endpoints
-            namespaces:
-              names:
-                - allinone
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_service_name]
-            action: keep
-            regex: allinone
+        static_configs:
+          - targets: ['gateway:8081']
+      - job_name: 'client-service'
+        metrics_path: '/actuator/prometheus'
+        static_configs:
+          - targets: ['client-service:8080']
+      - job_name: 'account-service'
+        metrics_path: '/actuator/prometheus'
+        static_configs:
+          - targets: ['account-service:8081']
 ---
 apiVersion: apps/v1
 kind: Deployment

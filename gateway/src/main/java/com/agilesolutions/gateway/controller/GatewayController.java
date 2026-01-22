@@ -8,6 +8,7 @@ import com.agilesolutions.gateway.rest.ClientHttpClient;
 import com.agilesolutions.gateway.service.StockService;
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
+import io.micrometer.observation.annotation.Observed;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -33,11 +34,11 @@ public class GatewayController {
     private final StockService stockService;
     private final ObservationRegistry registry;
 
+
     @QueryMapping
     public Flux<Client> clients() {
-        log.info("Starting to fetch movie infos");
-        return Observation.createNotStarted("clients", this.registry)
-                .observe(clientHttpClient::getAllClients);
+        log.info("Starting to fetch client infos");
+        return clientHttpClient.getAllClients();
     }
 
     @BatchMapping(typeName = "Client")

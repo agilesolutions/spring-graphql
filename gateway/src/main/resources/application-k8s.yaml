@@ -6,15 +6,21 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
+  # All traces should be sent to latency analysis tool
   tracing:
+    sampling:
+      probability: 1.0
     enabled: true
   endpoints:
     web:
       exposure:
         include: health,metrics,prometheus
-    export:
-      prometheus:
-        enabled: true
+  # For Exemplars to work we need histogram buckets
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+
 
 spring:
   application:
@@ -54,11 +60,11 @@ springdoc:
 logging:
   level:
     root: INFO
-    com.agilesolutions.kafka: DEBUG
-    org.springframework.jpa: DEBUG
-    org.springframework.mongo: DEBUG
-    org.springframework.security: DEBUG
-    org.springframework.graphql: DEBUG
+    com.agilesolutions.kafka: INFO
+    org.springframework.jpa: INFO
+    org.springframework.mongo: INFO
+    org.springframework.security: INFO
+    org.springframework.graphql: INFO
 
 twelvedata:
   api:
