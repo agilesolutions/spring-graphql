@@ -2,6 +2,7 @@ package com.agilesolutions.account.controller;
 
 import com.agilesolutions.account.domain.Account;
 import com.agilesolutions.account.service.AccountService;
+import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -49,6 +50,9 @@ public class AccountController {
     )
     @PostMapping(produces = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
+    @Observed(name = "get-all-accounts",
+            contextualName = "fetch-all-accounts",
+            lowCardinalityKeyValues = {"AccountController", "getAllAccounts"})
     public Flux<Account> getAllAccounts(@RequestBody List<Long> clientIds) {
         log.info("Fetching all accounts");
         return accountService.findAllAccounts(clientIds);

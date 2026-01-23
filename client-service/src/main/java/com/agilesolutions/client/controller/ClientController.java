@@ -2,6 +2,7 @@ package com.agilesolutions.client.controller;
 
 import com.agilesolutions.client.domain.Client;
 import com.agilesolutions.client.service.ClientService;
+import io.micrometer.observation.annotation.Observed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -49,6 +50,9 @@ public class ClientController {
     )
     @GetMapping(produces = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
+    @Observed(name = "g",
+            contextualName = "fetch-all-clients",
+            lowCardinalityKeyValues = {"ClientController", "getAllClients"})
     public Flux<Client> getAllClients() {
         log.info("Fetching all clients");
         return clientService.findAllClients();

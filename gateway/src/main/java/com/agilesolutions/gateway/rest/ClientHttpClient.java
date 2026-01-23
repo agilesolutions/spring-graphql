@@ -10,7 +10,7 @@ public interface ClientHttpClient {
     @GetExchange("/api/clients")
     @Observed(name = "get-all-clients",
             contextualName = "Fetch All Clients",
-            lowCardinalityKeyValues = {"clientType", "clientType2"})
+            lowCardinalityKeyValues = {"ClientHttpClient", "getAllClients"})
     public Flux<Client> getAllClients();
 
 }

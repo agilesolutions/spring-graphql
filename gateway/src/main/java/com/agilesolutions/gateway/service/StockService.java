@@ -4,6 +4,7 @@ import com.agilesolutions.gateway.config.TwelveDataProperties;
 import com.agilesolutions.gateway.domain.DailyStockData;
 import com.agilesolutions.gateway.domain.StockData;
 import com.agilesolutions.gateway.dto.StockDto;
+import io.micrometer.observation.annotation.Observed;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class StockService {
     private static final String MINUTE_INTERVAL = "1min";
     private static final String DAY_INTERVAL = "1day";
 
+    @Observed(name = "get-latest-stock-prices",
+            contextualName = "Get Latest Stock Prices",
+            lowCardinalityKeyValues = {"TwelveData", "time_series"})
     public StockDto getLatestStockPrices(String company) {
 
 

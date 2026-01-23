@@ -194,6 +194,7 @@ kubectl logs -f -n monitoring -l app=grafana # tail the logs on grafana
 ### Setup grafana dashboard
 - use admin/admin credentials to login and resetting password
 - import dashboard [12900](https://grafana.com/grafana/dashboards/12900-springboot-apm-dashboard/)
+- import dashboard [11378](https://grafana.com/grafana/dashboards/11378-justai-system-monitor/)
 - select prometheus datasource (pre-configured on deployment)
 - And your first runtime statistics will show...
 
