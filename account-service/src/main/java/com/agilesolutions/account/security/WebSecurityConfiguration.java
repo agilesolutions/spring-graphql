@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class WebSecurityConfiguration {
 
     private static final String[] WHITELIST = {"/healthCheck",
-            "actuator",
+            "/actuator/**",
             "/v3/api-docs/**",
             "/api/accounts/**",
             "/oauth2/**",

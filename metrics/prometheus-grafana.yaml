@@ -21,11 +21,11 @@ data:
       - job_name: 'gateway'
         metrics_path: '/actuator/prometheus'
         static_configs:
-          - targets: ['gateway.services.svc.cluster.local:8081']
+          - targets: ['gateway.services.svc.cluster.local:8082']
       - job_name: 'client-service'
         metrics_path: '/actuator/prometheus'
         static_configs:
-          - targets: ['orders-service.services.svc.cluster.local:8080']
+          - targets: ['client-service.services.svc.cluster.local:8080']
       - job_name: 'account-service'
         metrics_path: '/actuator/prometheus'
         static_configs:
