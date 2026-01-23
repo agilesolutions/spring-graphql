@@ -171,6 +171,21 @@ curl http://client-service:8080/actuator # check client-service actuator endpoin
 curl http://account-service:8081/actuator # check account-service actuator endpoint
 curl http://gateway:8082/actuator # check gateway actuator endpoint
 ```
+## The importancy of Observability with Micrometer to collecting JVM, CPU and HTTP metrics
+While traditional monitoring tells you when a system is failing, observability enables you to understand why by analyzing its external outputs—logs, metrics, and traces.
+<img title="Grafana SpringBoot APM Dashboard" alt="Alt text" src="/images/observability.png">
+- Logs and Events provide context about what happened in the system at a specific point in time.
+- Metrics offer quantitative data about system performance and resource usage over time.
+- Traces illustrate the flow of requests through various components of the system, helping to identify bottlenecks and latency issues.
+- Distributed Tracing allows tracking of requests as they propagate through multiple services, providing insights into the end-to-end journey of a request.
+### Prometheus and Grafana setup
+Deploy Prometheus and Grafana to your Kubernetes cluster using the provided manifests in the `metrics` directory and tail the logs to ensure they are running correctly.
+```bash
+kubectl apply -f ./metrics # deploy k8s deployments and services to run Prometheus and Grafana.
+kubectl logs -f -n monitoring -l app=prometheus # tail the logs on prometheus
+kubectl logs -f -n monitoring -l app=grafana # tail the logs on grafana
+```
+
 
 - [Swagger UI](http://localhost:30080/swagger-ui.html)
 - [Grafana UI](http://localhost:30070/)
