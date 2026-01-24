@@ -84,6 +84,8 @@ deploy-kubectl:      # This job runs in the deploy stage.
   script:
     - echo "Now you can use kubectl commands you want"
     - cd client-service/${KUSTOMIZE_DIR} && kustomize edit set image client-service=client-service:$CI_COMMIT_SHORT_SHA && kustomize build .
+    - cd account-service/${KUSTOMIZE_DIR} && kustomize edit set image account-service=account-service:$CI_COMMIT_SHORT_SHA && kustomize build .
+    - cd gateway/${KUSTOMIZE_DIR} && kustomize edit set image gateway=gateway:$CI_COMMIT_SHORT_SHA && kustomize build .
 #    - kustomize build . | kubectl apply -f -
 #    - kubectl config get-contexts
 #    - kubectl config use-context $(kubectl config current-context)
