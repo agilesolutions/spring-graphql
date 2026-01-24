@@ -34,6 +34,11 @@ build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
     - echo "Compiling, build and package..."
+    - cd client-service
+    - gradle bootJar
+    - cd ../account-service
+    - gradle bootJar
+    - cd ../client-service
     - gradle bootJar
     - echo "Build."
   artifacts:
