@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: client-service
+namespace: services
 resources:
 - ../../base
 patches:
@@ -12,7 +12,7 @@ patches:
     kind: Deployment
     name: client-service
 images:
-- name: allinone
+- name: client-service
   newName: agilesolutions/client-service
 labels:
 - includeSelectors: true
