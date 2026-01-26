@@ -70,7 +70,7 @@ integration-tests:   # This job runs in the test stage.
     GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
   script:
     - echo "Running integration tests..."
-    - cd $CI_PROJECT_DIR/client-service
+    - cd $CI_PROJECT_DIR/account-service
     - gradle integrationTest
 
 docker-build:
