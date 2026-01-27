@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 
@@ -34,14 +33,14 @@ class AccountControllerTest {
     }
 
     /**
-     * Tests that the endpoint returns a list of accounts as JSON when shares exist.
+     * Tests that the endpoint returns a list of accounts as JSON when account exist.
      * Verifies the HTTP status is 200 (OK) and the response contains the expected data.
      *
      * @throws Exception if the MockMvc request fails
      */
     @Test
     @DisplayName("Returns list of accounts as JSON")
-    void getAllSharesReturnsListOfShares() throws Exception {
+    void getAllAccountsReturnsListOfShares() throws Exception {
         when(accountService.findAllAccounts(List.of(1L, 2L))).thenReturn(Flux.just(
                 Account.builder().id("1").clientId(1L).maturityDate(LocalDate.now()).openingDayBalance(1.2F).amount(100).description("Personal Account").lineOfBusiness("Retail").number("AAPL").build(),
                 Account.builder().id("2").clientId(2L).maturityDate(LocalDate.now()).openingDayBalance(2.5F).amount(200).description("Business Account").lineOfBusiness("Corporate").number("AAPL").build()
@@ -63,14 +62,14 @@ class AccountControllerTest {
 
 
     /**
-     * Tests that the endpoint returns an empty list as JSON when no shares exist.
+     * Tests that the endpoint returns an empty list as JSON when no accounts exist.
      * Verifies the HTTP status is 200 (OK) and the response is an empty array.
      *
      * @throws Exception if the MockMvc request fails
      */
     @Test
     @DisplayName("Returns empty list when no accounts exist")
-    void getAllSharesReturnsEmptyList() throws Exception {
+    void getAllAccountsReturnsEmptyList() throws Exception {
         when(accountService.findAllAccounts(List.of(99L))).thenReturn(Flux.just());
 
         webTestClient.post().uri("/api/accounts")
@@ -90,7 +89,7 @@ class AccountControllerTest {
      */
     @Test
     @DisplayName("Handles service exception with 500 error")
-    void getAllSharesServiceThrowsException() throws Exception {
+    void getAllAccountsServiceThrowsException() throws Exception {
         when(accountService.findAllAccounts(List.of(99L))).thenThrow(new RuntimeException("Service error"));
 
         webTestClient.post().uri("/api/accounts")
