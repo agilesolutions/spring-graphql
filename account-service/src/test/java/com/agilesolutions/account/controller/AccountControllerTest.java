@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
+import reactor.test.publisher.TestPublisher;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -41,6 +42,7 @@ class AccountControllerTest {
     @Test
     @DisplayName("Returns list of accounts as JSON")
     void getAllAccountsReturnsListOfShares() throws Exception {
+
         when(accountService.findAllAccounts(List.of(1L, 2L))).thenReturn(Flux.just(
                 Account.builder().id("1").clientId(1L).maturityDate(LocalDate.now()).openingDayBalance(1.2F).amount(100).description("Personal Account").lineOfBusiness("Retail").number("AAPL").build(),
                 Account.builder().id("2").clientId(2L).maturityDate(LocalDate.now()).openingDayBalance(2.5F).amount(200).description("Business Account").lineOfBusiness("Corporate").number("AAPL").build()

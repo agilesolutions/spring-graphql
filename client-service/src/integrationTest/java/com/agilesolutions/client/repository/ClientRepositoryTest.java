@@ -4,6 +4,7 @@ import com.agilesolutions.client.entity.Client;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 class ClientRepositoryTest extends BasePGIntegrationTest {
 
@@ -18,6 +19,13 @@ class ClientRepositoryTest extends BasePGIntegrationTest {
                 repository.deleteAll()
                         .then(repository.save(new Client(null, "John", "A.", "Doe")))
                         .flatMap(saved -> repository.findById(saved.getId()));
+
+        StepVerifier.create(result)
+                .expectNextMatches(client ->
+                        client.getFirstName().equals("John") &&
+                        client.getMiddleName().equals("A.") &&
+                        client.getLastName().equals("Doe"))
+                .verifyComplete();
 
 
     }
