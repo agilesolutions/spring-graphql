@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.util.List;
 
-class MongoDBShareRepositoryTest extends BaseMongoDBIntegrationTest {
+class AccountRepositoryTest extends BaseMongoDBIntegrationTest {
 
 
     @Autowired
