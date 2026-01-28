@@ -64,7 +64,7 @@ integration-tests:   # This job runs in the test stage.
     DOCKER_TLS_CERTDIR: ""
     TESTCONTAINERS_RYUK_DISABLED: "true" # Optional, speeds up CI
     TESTCONTAINERS_CHECKS_DISABLE: "true" # Optional, skips some startup checks
-    GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+    GRADLE_USER_HOME: "$CI_PROJECT_DIR/account-service/.gradle"
   script:
     - echo "Running integration tests..."
     - cd $CI_PROJECT_DIR/account-service
