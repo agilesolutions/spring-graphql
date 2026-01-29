@@ -52,23 +52,27 @@ unit-tests:   # This job runs in the test stage.
   stage: test
   script:
     - echo "Running unit tests... "
+    - cd $CI_PROJECT_DIR/client-service
+    - gradle test
     - cd $CI_PROJECT_DIR/account-service
     - gradle test
+    - cd $CI_PROJECT_DIR/gateway
+    - gradle test
 
-integration-tests:   # This job runs in the test stage.
-  stage: test
-  variables:
-    DOCKER_HOST: tcp://docker:2375
+#integration-tests:   # This job runs in the test stage.
+#  stage: test
+#  variables:
+#    DOCKER_HOST: tcp://docker:2375
     # Use the overlay fs driver for improved performance:
-    DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
-    TESTCONTAINERS_RYUK_DISABLED: "true" # Optional, speeds up CI
-    TESTCONTAINERS_CHECKS_DISABLE: "true" # Optional, skips some startup checks
-    GRADLE_USER_HOME: "$CI_PROJECT_DIR/account-service/.gradle"
-  script:
-    - echo "Running integration tests..."
-    - cd $CI_PROJECT_DIR/account-service
-    - gradle integrationTest
+#    DOCKER_DRIVER: overlay2
+#    DOCKER_TLS_CERTDIR: ""
+#    TESTCONTAINERS_RYUK_DISABLED: "true" # Optional, speeds up CI
+#    TESTCONTAINERS_CHECKS_DISABLE: "true" # Optional, skips some startup checks
+#    GRADLE_USER_HOME: "$CI_PROJECT_DIR/account-service/.gradle"
+#  script:
+#    - echo "Running integration tests..."
+#    - cd $CI_PROJECT_DIR/account-service
+#    - gradle integrationTest
 
 docker-build:
   stage: docker

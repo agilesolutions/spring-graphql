@@ -25,6 +25,9 @@ class GatewayControllerTest {
     @MockitoBean
     private com.agilesolutions.gateway.service.StockService stockService;
 
+    @MockitoBean
+    private io.micrometer.observation.ObservationRegistry observationRegistry;
+
     @Test
     void testClientsQuery() {
 
@@ -37,8 +40,9 @@ class GatewayControllerTest {
                 query {
                     clients {
                         id
-                        name
-                        email
+                        firstName
+                        middleName
+                        lastName
                     }
                 }
                 """;
@@ -49,7 +53,61 @@ class GatewayControllerTest {
                 .entityList(Client.class) // Replace Object.class with the actual Client class if available
                 .hasSizeGreaterThan(0)
                 .containsExactly(
-                        new Client(1L, "John Doe", ")
+                        new Client(1L, "John", "A.", "Doe"),
+                        new Client(2L, "Jane", "B.", "Smith")
+                );
+
+    }
+
+    @Test
+    void testClientsQueryNoClients() {
+
+        given(clientHttpClient.getAllClients())
+                .willReturn(Flux.empty());
+
+        String query = """
+                query {
+                    clients {
+                        id
+                        firstName
+                        middleName
+                        lastName
+                    }
+                }
+                """;
+
+        graphQlTester.document(query)
+                .execute()
+                .path("clients")
+                .entityList(Client.class) // Replace Object.class with the actual Client class if available
+                .hasSize(0);
+
+    }
+
+    @Test
+    void testClientsQueryError() {
+
+        given(clientHttpClient.getAllClients())
+                .willReturn(Flux.error(new RuntimeException("Service unavailable")));
+
+        String query = """
+                query {
+                    clients {
+                        id
+                        firstName
+                        middleName
+                        lastName
+                    }
+                }
+                """;
+
+        graphQlTester.document(query)
+                .execute()
+                .errors()
+                .satisfy(errors -> {
+                    assert errors.size() == 1;
+                    assert errors.get(0).getMessage().contains("INTERNAL_ERROR");§
+                });
 
     }
 
