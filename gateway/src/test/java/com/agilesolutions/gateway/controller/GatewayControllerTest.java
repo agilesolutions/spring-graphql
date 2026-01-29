@@ -3,6 +3,7 @@ package com.agilesolutions.gateway.controller;
 import com.agilesolutions.gateway.domain.Account;
 import com.agilesolutions.gateway.domain.Client;
 import com.agilesolutions.gateway.dto.StockDto;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
@@ -33,7 +34,11 @@ class GatewayControllerTest {
     @MockitoBean
     private io.micrometer.observation.ObservationRegistry observationRegistry;
 
+    /**
+     * Test the clients query when there are multiple clients returned by the client service.
+     */
     @Test
+    @DisplayName("Test clients query with multiple clients")
     void testClientsQuery() {
 
         given(clientHttpClient.getAllClients())
@@ -64,7 +69,11 @@ class GatewayControllerTest {
 
     }
 
+    /**
+     * Test the clients query when there are no clients returned by the client service.
+     */
     @Test
+    @DisplayName("Test clients query with no clients")
     void testClientsQueryNoClients() {
 
         given(clientHttpClient.getAllClients())
@@ -89,7 +98,11 @@ class GatewayControllerTest {
 
     }
 
+    /**
+     * Test the clients query when the client service returns an error.
+     */
     @Test
+    @DisplayName("Test clients query with error from client service")
     void testClientsQueryError() {
 
         given(clientHttpClient.getAllClients())
@@ -116,7 +129,11 @@ class GatewayControllerTest {
 
     }
 
+    /**
+     * Test the clients query with accounts.
+     */
     @Test
+    @DisplayName("Test clients query with accounts")
     void testClientsQueryWithAccounts() {
 
         given(clientHttpClient.getAllClients())

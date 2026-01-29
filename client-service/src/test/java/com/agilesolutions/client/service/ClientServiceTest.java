@@ -3,6 +3,7 @@ package com.agilesolutions.client.service;
 import com.agilesolutions.client.domain.Client;
 import com.agilesolutions.client.repository.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -12,6 +13,9 @@ import reactor.test.StepVerifier;
 
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit tests for ClientService.
+ */
 class ClientServiceTest {
 
     @Mock
@@ -28,7 +32,11 @@ class ClientServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Test finding all clients when clients exist in the repository.
+     */
     @Test
+    @DisplayName("Find all clients when clients exist")
     void findAllClientsWhenClientsExist() {
 
         when(clientRepository.findAll()).thenReturn(Flux.just(
@@ -62,7 +70,11 @@ class ClientServiceTest {
 
     }
 
+    /**
+     * Test finding all clients when no clients exist in the repository.
+     */
     @Test
+    @DisplayName("Find all clients when no clients exist")
     void findAllClientsWhenNoClientsExist() {
 
         when(clientRepository.findAll()).thenReturn(Flux.empty());
