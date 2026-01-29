@@ -197,4 +197,5 @@ task release(type: GradleBuild) {
 
 test.dependsOn generateHelmChart
 compileTestJava.dependsOn generateHelmChart
+
 generateHelmChart.dependsOn bootJar, jar
