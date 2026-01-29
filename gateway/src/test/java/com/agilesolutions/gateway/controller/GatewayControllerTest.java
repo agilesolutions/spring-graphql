@@ -1,12 +1,17 @@
 package com.agilesolutions.gateway.controller;
 
+import com.agilesolutions.gateway.domain.Account;
 import com.agilesolutions.gateway.domain.Client;
+import com.agilesolutions.gateway.dto.StockDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import reactor.core.publisher.Flux;
+
+import java.time.LocalDate;
+import java.util.List;
 
 import static org.mockito.BDDMockito.*;
 
@@ -106,10 +111,66 @@ class GatewayControllerTest {
                 .errors()
                 .satisfy(errors -> {
                     assert errors.size() == 1;
-                    assert errors.get(0).getMessage().contains("INTERNAL_ERROR");§
+                    assert errors.get(0).getMessage().contains("INTERNAL_ERROR");
                 });
 
     }
+
+    @Test
+    void testClientsQueryWithAccounts() {
+
+        given(clientHttpClient.getAllClients())
+                .willReturn(Flux.just(
+                        new Client(1L, "John", "A.", "Doe"),
+                        new Client(2L, "Jane", "B.", "Smith")));
+
+        // Additional mocking for accounts and stock service can be added here
+        given(accountHttpClient.getAllAccounts(List.of(1L, 2L)))
+                .willReturn(Flux.just(
+                        new com.agilesolutions.gateway.domain.Account("ACC123", 1L, "Savings Account", "Retail", 950, 1000.0f, LocalDate.of(2025, 12, 31)),
+                        new com.agilesolutions.gateway.domain.Account("ACC456", 2L, "Checking Account", "Retail", 1900, 2000.0f, LocalDate.of(2024, 11, 30))
+                ));
+
+        given(stockService.getLatestStockPrices("ACC123"))
+                .willReturn(new StockDto(1100.0f));
+        given(stockService.getLatestStockPrices("ACC456"))
+                .willReturn(new StockDto( 2100.0f));
+
+        String query = """
+                query {
+                    clients {
+                        id
+                        firstName
+                        middleName
+                        lastName
+                        accounts {
+                            number
+                            description
+                            lineOfBusiness
+                            maturityDate
+                            amount
+                            openingDayBalance
+                        }
+                    }
+                }
+                """;
+
+        graphQlTester.document(query)
+                .execute()
+                .path("clients")
+                .entityList(Client.class)
+                .hasSize(2)
+                .containsExactly(new Client(1L, "John", "A.", "Doe"),
+                        new Client(2L, "Jane", "B.", "Smith"))
+                .path("clients[0].accounts")
+                .entityList(com.agilesolutions.gateway.domain.Account.class)
+                .hasSize(1)
+                .containsExactly(new Account("ACC123", null, "Savings Account", "Retail", 950, 1100.0f, LocalDate.of(2025,12,31))
+                );
+
+
+    }
+
 
 
 }
