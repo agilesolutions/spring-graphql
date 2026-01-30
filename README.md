@@ -168,32 +168,7 @@ The GitLab CI/CD pipeline is defined in the `.gitlab-ci.yml` file. It includes t
 - `kustomize`: Customizes the Kubernetes manifests using Kustomize.
 - `deploy`: Deploys the application to a Kubernetes cluster using FluxCD.
 
-## Security
-This application is setup to securing and authorizing REST endpoints using Spring Security with Oauth2 and JWT. This application combines Authorization server, Resource Sever and Client Appication in one single application. Method level security is implemented using `@PreAuthorize` annotations. 
-1. **Authorization Server** - Issues and validates OAuth2 tokens
-2. **Resource Server** - Hosts protected resources requiring OAuth2 authentication
-3. **Client Application** - Makes authenticated requests using OAuth2 tokens
-
-### Architecture
-This is depicting a typical OIDC Authorization Code Flow. 
-1. The client requests an access token from the Authorization Server
-2. The Authorization Server validates credentials and returns a token
-3. The client includes this token when requesting protected resources
-4. The Resource Server validates the token before serving the request
-
-<img title="OIDC Authorization Code Flow" alt="Alt text" src="/images/oauth2_architecture.png">
-
-### Run GraphQL queries and mutations 
-You can run GraphQL queries and mutations using the GraphiQL interface available at [http://localhost:30080/graphiql](http://localhost:30080/graphiql)
-Test query with curl
-```bash
-curl --request POST \
-  --url http://localhost:30082/graphql \
-  --header 'content-type: application/json' \
-  --data '{"query":"{\n  clients {\n    id\n    firstName\n    lastName\n    middleName\n    accounts {\n      number\n      description\n      lineOfBusiness\n      amount\n      openingDayBalance\n      maturityDate\n    }\n  }\n}\n"}'
-```
-
-#### Oauth2.0 client and resource server setup
+## Oauth2.0 client and resource server setup
 - I am faking up OAuth2 server (/oauth2/token + JWKS) issues valid RS256-signed JWTs.
 - The resource server validates the JWTs using the JWKS endpoint exposed by the fake OAuth2 server.
 - The client application uses the OAuth2 Authorization Code flow to obtain access tokens from the fake OAuth2 server.
@@ -205,17 +180,25 @@ curl --request POST \
 - The application uses a custom UserDetailsService to load user details from an in-memory store for authentication purposes.
 - The application uses BCryptPasswordEncoder to hash and verify user passwords.
 - The application uses a custom JwtAuthenticationConverter to extract roles from the JWT and map them to Spring Security authorities.
+
+<img title="OIDC Authorization Code Flow" alt="Alt text" src="/images/oauth2_architecture.png">
+
+### Run GraphQL query example
+Run following curl command to test GraphQL endpoint via gateway
+```bash
+curl --request POST \
+  --url http://localhost:30082/graphql \
+  --header 'content-type: application/json' \
+  --data '{"query":"{\n  clients {\n    id\n    firstName\n    lastName\n    middleName\n    accounts {\n      number\n      description\n      lineOfBusiness\n      amount\n      openingDayBalance\n      maturityDate\n    }\n  }\n}\n"}'
+```
         
 ## Observability with Micrometer to collecting JVM, CPU and HTTP metrics
 - JVM Memory: jvm.memory.used, jvm.memory.max, jvm.gc.pause, etc.
 - CPU: system.cpu.usage, process.cpu.usage, system.load.average.1m, etc.
 - HTTP Requests: http.server.requests — counts, timers, percentiles, tags by status, method, URI.
 
-### Grafana dashboard and install
-
-
-<img title="Grafana SpringBoot APM Dashboard" alt="Alt text" src="/images/dashboard.png">
-
+## Prometheus and Grafana setup
+Deploy Prometheus and Grafana to your Kubernetes cluster using the provided manifests in the `metrics` directory and tail the logs to ensure they are running correctly.
 ```bash
 kubectl apply -f ./metrics # deploy k8s deployments and services to run Prometheus and Grafana.
 kubectl logs -f -n monitoring -l app=prometheus # tail the logs on prometheus
@@ -229,6 +212,8 @@ kubectl logs -f -n monitoring -l app=grafana # tail the logs on grafana
 ### Setup grafana dashboard
 - import dashboard [12900](https://grafana.com/grafana/dashboards/12900-springboot-apm-dashboard/)
 - select prometheus datasource (pre-configured on deployment)
+
+<img title="Grafana SpringBoot APM Dashboard" alt="Alt text" src="/images/dashboard.png">
 
 ## References
 - [Spring Boot Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
