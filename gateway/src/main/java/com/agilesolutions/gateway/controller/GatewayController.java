@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -34,6 +35,11 @@ public class GatewayController {
     private final StockService stockService;
     private final ObservationRegistry registry;
 
+
+    @GetMapping("/health")
+    public String healthCheck() {
+        return "Gateway is up and running!";
+    }
 
     @QueryMapping
     public Flux<Client> clients() {
