@@ -153,10 +153,10 @@ String branchName() {
 }
 
 task generateHelmChart(type: Copy) {
-    inputs.dir('helm/allinone')
+    inputs.dir('helm')
     inputs.file('build.gradle')
     from('helm') {
-        include 'demo/**'
+        include 'client-service/**'
         filter(ReplaceTokens, tokens: [appVersion: version])
     }
     into('build')
