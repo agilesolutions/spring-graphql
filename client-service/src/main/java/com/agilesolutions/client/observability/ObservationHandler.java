@@ -9,20 +9,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.StreamSupport;
 
-// Example of plugging in a custom handler that in this case will print a statement before and after all observations take place
+/**
+ * Custom ObservationHandler to log messages before and after an observation is run.
+ */
 @Component
-class MyHandler implements ObservationHandler<Observation.Context> {
+class ObservabilityHandler implements ObservationHandler<Observation.Context> {
 
-    private static final Logger log = LoggerFactory.getLogger(MyHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(ObservabilityHandler.class);
 
     @Override
     public void onStart(Observation.Context context) {
-        log.info("Before running the observation for context [{}], userType [{}]", context.getName(), getUserTypeFromContext(context));
+        log.info("Before running the observation for context [{}], ClientController [{}]", context.getName(), getUserTypeFromContext(context));
     }
 
     @Override
     public void onStop(Observation.Context context) {
-        log.info("After running the observation for context [{}], userType [{}]", context.getName(), getUserTypeFromContext(context));
+        log.info("After running the observation for context [{}], ClientController [{}]", context.getName(), getUserTypeFromContext(context));
     }
 
     @Override
@@ -32,7 +34,7 @@ class MyHandler implements ObservationHandler<Observation.Context> {
 
     private String getUserTypeFromContext(Observation.Context context) {
         return StreamSupport.stream(context.getLowCardinalityKeyValues().spliterator(), false)
-                .filter(keyValue -> "userType".equals(keyValue.getKey()))
+                .filter(keyValue -> "ClientController".equals(keyValue.getKey()))
                 .map(KeyValue::getValue)
                 .findFirst()
                 .orElse("UNKNOWN");

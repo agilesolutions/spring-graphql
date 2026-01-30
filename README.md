@@ -15,24 +15,16 @@ This project aims to demonstrate the following outcomes:
 - How to implement cross-cutting concerns such as security, scalability, service integration, and more using Spring Boot and related technologies.
 - How to integrate GraphQL API using Spring GraphQL and demonstrate its usage alongside RESTful APIs.
 
-```
-Note: This service is implemented as a Spring Boot monolith to demonstrate cross-cutting Spring Framework features such as security, scalability, service integration, and more. The design choices are intentional for this context and are not intended to represent microservices best practices.
-```
 ## Feature list
 This project is a comprehensive Spring Boot application that integrates various technologies and frameworks to provide a robust and scalable solution. The application demonstrates the following key features:
-- Oauth2.0 credential grant flow implementation with Spring Security 6.4 Oauth2 Resource Server and Client
 - Spring Boot 3.2.x with Java 21
 - Gradle build system
 - RESTful API development with Spring Web MVC
-- Apache Avro for data serialization and deserialization
-- Apache Kafka integration using Spring Kafka
 - MongoDB integration using Spring Data MongoDB
 - Integration with external RESTful services using RestTemplate and WebClient
 - GraphQL API development using Spring GraphQL
 - Exception handling with Controller Advice and Problem+JSON
 - Input validation using Spring Validation
-- Scheduling tasks using Spring Scheduler
-- Retry mechanism using Spring Retry
 - Spring Boot Actuator for monitoring and management
 - Micrometer for application metrics
 - OpenAPI/Swagger for API documentation
@@ -42,48 +34,27 @@ This project is a comprehensive Spring Boot application that integrates various 
 - Kustomize for Kubernetes manifest customization
 - CI/CD pipeline using GitLab CI/CD and FluxCD
 - Monitoring with Prometheus and Grafana
-- Logging with ELK stack (Elasticsearch, Logstash, Kibana)
-- Integration tests with Testcontainers for PostgreSQL, MongoDB, and Kafka
+- Integration tests with Testcontainers for PostgreSQL, MongoDB
 - Lombok for reducing boilerplate code
-- Spring AMQP for RabbitMQ integration
-- Spring Cloud Stream for building message-driven microservices and Async communication
-- Spring Boot DevTools for development convenience
 - Spring Boot Test for testing support
 - Spring REST Docs for API documentation
 - Spring Validation for input validation
 - Spring Retry for retrying operations
 - Database migrations using Flyway
-- Caching with Spring Cache and Redis
-- Internationalization (i18n) support
-- Asynchronous processing with Spring Async
-- WebSocket support with Spring WebSocket
+- OIDC Client Credential flow for service-to-service authentication
+- Security with Spring Security, OAuth2, and JWT
 - OAuth2 client and resource server setup with JWT validation
 - Method-level security with @PreAuthorize annotations
 - Custom JwtAuthenticationConverter for extracting roles from JWT
-- In-memory user details service for authentication
 - BCryptPasswordEncoder for password hashing
-- Security event logging for auditing and monitoring
 - Graceful shutdown with Kubernetes readiness checks and custom health indicators
-- Distributed tracing with Spring Cloud Sleuth and Zipkin
-- Circuit breaker pattern with Spring Cloud Netflix Hystrix
-- Service discovery with Spring Cloud Netflix Eureka
-- Externalized configuration management with Spring Cloud Config
 - API Gateway with Spring Cloud Gateway
-- Declarative REST client with Spring Cloud OpenFeign
-- Integration with relational databases using Spring Data JPA
-- Integration with NoSQL databases using Spring Data MongoDB
-- Spring Cloud OpenFeign for declarative REST client
 - Continuous Integration and Continuous Deployment (CI/CD) using GitLab CI/CD and FluxCD
-- Monitoring and logging with Prometheus, Grafana, and the ELK stack (Elasticsearch, Logstash, Kibana)
-- Security with Spring Security, OAuth2, and JWT
-- Controller advice and Problem+JSON error handling
 
 ## Overview Platform Architecture
 This diagram illustrates the architecture of the Spring Boot application and its integration with various components and services.
 
 <img title="Spring Boot Application Architecture" alt="Alt text" src="/images/architecture.png">
-
-
 
 ## Prerequisites
 - Java 21 or higher
@@ -142,18 +113,9 @@ spring-graphql/
 ├── client-service/ (another microservice)
 │   └── ...
 ```
-## Build and Run the Application
-This will Gradle build, test and package SpringBoot jar. Accordingly build a docker image, ready to get deployed to Kubernetes with Kustomize overlay local. 
-Running the kubernetes manifests on the metrics directory will spin up a pre-configured Prometheus and Grafana POD. Prometheus is pre-configured to scrape the 
-actuator/prometheus endpoint and absorbing SpringBoot runtime statistics.
-### Build the application
-```
-gradle build
-```
-This will compile the code, run tests, and create a JAR file in the `build/libs` directory.
 
-### Run the application
-You can run the application using the following command:
+### Run the Application Locally on Kubernetes
+Make sure you have Docker for Desktop running with Kubernetes enabled. You can build and deploy the application to your local Kubernetes cluster using the provided Gradle tasks and Kustomize overlays.
 ```bash
 gradle release # compile, test, package and docker build each microservices
 kubectl apply -k ./kustomize/overlays/local # kustomize deploy gateway, client-service and account-service to local k8s cluster
@@ -185,8 +147,6 @@ kubectl apply -f ./metrics # deploy k8s deployments and services to run Promethe
 kubectl logs -f -n monitoring -l app=prometheus # tail the logs on prometheus
 kubectl logs -f -n monitoring -l app=grafana # tail the logs on grafana
 ```
-
-
 - [Swagger UI](http://localhost:30080/swagger-ui.html)
 - [Grafana UI](http://localhost:30070/)
 - [Prometheus UI](http://localhost:30090/)
@@ -199,24 +159,6 @@ kubectl logs -f -n monitoring -l app=grafana # tail the logs on grafana
 - And your first runtime statistics will show...
 
 
-## Gradle Tasks
-- `generateAvro`: Generates Avro classes from the Avro schema files.
-- `bootRun`: Runs the Spring Boot application.
-- `build`: Builds the application and creates a JAR file.
-- `test`: Runs the tests.
-- `integrationTest`: Runs the integration tests with PostgreSQL, MongoDB and Kafka test containers
-- `docker`: Builds the Docker image.
-- `helm`: Packages the application using Helm.
-- `kustomize`: Customizes the Kubernetes manifests using Kustomize.
-- `deploy`: Deploys the application to a Kubernetes cluster using FluxCD.
-- `ci`: Runs the CI/CD pipeline.
-- `lint`: Runs the code linter.
-- `format`: Formats the code using the code formatter.
-- `check`: Runs the code checks.
-- `publish`: Publishes the application to a remote repository.
-- `release`: Creates a release of the application.
-- `clean`: Cleans the build directory.
-
 ## GitLab CI/CD Pipeline
 The GitLab CI/CD pipeline is defined in the `.gitlab-ci.yml` file. It includes the following stages:
 - `build`: Builds the application and creates a JAR file.
@@ -225,27 +167,6 @@ The GitLab CI/CD pipeline is defined in the `.gitlab-ci.yml` file. It includes t
 - `helm`: Packages the application using Helm.
 - `kustomize`: Customizes the Kubernetes manifests using Kustomize.
 - `deploy`: Deploys the application to a Kubernetes cluster using FluxCD.
-
-## Running the Application Locally
-To run the application locally, you can use the following command:
-```bash
-./gradlew bootRun
-```
-This will start the Spring Boot application on port 8080.
-## Accessing the Application
-You can access the application using the following URLs:
-- JPA Shares: [http://localhost:8080/jpa/shares](http://localhost:8080/jpa/shares)
-- Mongo Shares: [http://localhost:8080/mongo/shares](http://localhost:8080/mongo/shares)
-- Kafka Shares: [http://localhost:8080/kafka/shares](http://localhost:8080/kafka/shares)
-- Stock Prices API: [http://localhost:8080/api/assets/stockPrices/AAPL](http://localhost:8080/api/assets/stockPrices/AAPL)
-- Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-- Actuator: [http://localhost:8080/actuator](http://localhost:8080/actuator)
-- Health Check: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
-- Metrics: [http://localhost:8080/actuator/metrics](http://localhost:8080/actuator/metrics)
-- Prometheus: [http://localhost:8080/actuator/prometheus](http://localhost:8080/actuator/prometheus)
-- Grafana: [http://localhost:3000](http://localhost:3000) (default username: admin, password: admin)
-- Kibana: [http://localhost:5601](http://localhost:5601) (default username: elastic, password: changeme)
-- Elasticsearch: [http://localhost:9200](http://localhost:9200) (default username: elastic, password: changeme)
 
 ## Security
 This application is setup to securing and authorizing REST endpoints using Spring Security with Oauth2 and JWT. This application combines Authorization server, Resource Sever and Client Appication in one single application. Method level security is implemented using `@PreAuthorize` annotations. 
@@ -262,25 +183,15 @@ This is depicting a typical OIDC Authorization Code Flow.
 
 <img title="OIDC Authorization Code Flow" alt="Alt text" src="/images/oauth2_architecture.png">
 
-
-### Security Testing
-You need to have docker for desktop running and local kubernetes cluster started. Run the following commands to...
-1. Build spring boot jar and pack in on a docker image.
-2. run the kustomize local overlay to set up a k8s namespace, deployment and service binding to nodeport 30080
-3. kubectl apply everything in metrics folder, k8s deploying prometheus and grafana and binding node ports.
-3. run swagger UI from [http://localhost:30080/swagger-ui.html](http://localhost:30080/swagger-ui.html)
-4. check prometheus collected metrics through [actuator/prometheus endpoint](http://localhost:30080/actuator/prometheus)
+### Run GraphQL queries and mutations 
+You can run GraphQL queries and mutations using the GraphiQL interface available at [http://localhost:30080/graphiql](http://localhost:30080/graphiql)
+Test query with curl
+```bash
+curl --request POST \
+  --url http://localhost:30082/graphql \
+  --header 'content-type: application/json' \
+  --data '{"query":"{\n  clients {\n    id\n    firstName\n    lastName\n    middleName\n    accounts {\n      number\n      description\n      lineOfBusiness\n      amount\n      openingDayBalance\n      maturityDate\n    }\n  }\n}\n"}'
 ```
-gradle release
-kubectl apply -k ./kustomize/overlays/local
-kubectl apply -f ./metrics
-kubectl logs -f -n allinone -l app=allinone
-kubectl logs -f -n monitoring -l app=prometheus
-kubectl logs -f -n monitoring -l app=grafana
-```
-This application provides two sets of endpoints:
-- Public endpoints: `/swagger-ui.html, /actuator, /v3/api-docs` - accessible without authentication.
-- Secured endpoints: `/api/**` - require authentication and authorization Authorization: Bearer <access_token>
 
 #### Oauth2.0 client and resource server setup
 - I am faking up OAuth2 server (/oauth2/token + JWKS) issues valid RS256-signed JWTs.
@@ -294,20 +205,6 @@ This application provides two sets of endpoints:
 - The application uses a custom UserDetailsService to load user details from an in-memory store for authentication purposes.
 - The application uses BCryptPasswordEncoder to hash and verify user passwords.
 - The application uses a custom JwtAuthenticationConverter to extract roles from the JWT and map them to Spring Security authorities.
-
-#### Oauth2.0 client (OIDC authorization code grant flow)processing flow:
-1. The client application initiates the OAuth2 Authorization Code flow by redirecting the user to the authorization endpoint of the fake OAuth2 server.
-2. The user authenticates with the fake OAuth2 server and grants consent to the client application
-3. The fake OAuth2 server redirects the user back to the client application with an authorization code.
-4. The client application exchanges the authorization code for an access token by making a POST request to the token endpoint of the fake OAuth2 server.
-5. The fake OAuth2 server validates the authorization code and returns an access token (a JWT signed with RS256) to the client application.
-6. The client application includes the access token in the Authorization header when making requests to the resource server.
-7. The resource server validates the access token and authorizes access to protected resources based on the scopes and roles contained in the token.
-8. The application uses method-level security annotations (e.g., @PreAuthorize) to enforce authorization rules on specific endpoints.
-9. The application uses a custom UserDetailsService to load user details from an in-memory store for authentication purposes.
-10. The application uses BCryptPasswordEncoder to hash and verify user passwords.
-11. The application uses a custom JwtAuthenticationConverter to extract roles from the JWT and map them to Spring Security authorities.
-12. The application logs security-related events for auditing and monitoring purposes.
         
 ## Observability with Micrometer to collecting JVM, CPU and HTTP metrics
 - JVM Memory: jvm.memory.used, jvm.memory.max, jvm.gc.pause, etc.
@@ -333,12 +230,6 @@ kubectl logs -f -n monitoring -l app=grafana # tail the logs on grafana
 - import dashboard [12900](https://grafana.com/grafana/dashboards/12900-springboot-apm-dashboard/)
 - select prometheus datasource (pre-configured on deployment)
 
-## Monitoring and Logging
-The application is integrated with Prometheus and Grafana for monitoring, and Elasticsearch, Logstash, and Kibana (ELK stack) for logging. You can access the monitoring and logging dashboards using the following URLs:
-- Prometheus: [http://localhost:9090](http://localhost:9090)
-- Grafana: [http://localhost:3000](http://localhost:3000) (default username: admin, password: admin)
-- Kibana: [http://localhost:5601](http://localhost:5601) (default username: elastic, password: changeme)
-
 ## References
 - [Spring Boot Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
 - [GitLab CI/CD Documentation](https://docs.gitlab.com/ee/ci/)
@@ -350,7 +241,6 @@ The application is integrated with Prometheus and Grafana for monitoring, and El
 - [Docker Documentation](https://docs.docker.com/)
 - [Prometheus Documentation](https://prometheus.io/docs/introduction/overview/)
 - [Grafana Documentation](https://grafana.com/docs/)
-- [ELK Stack Documentation](https://www.elastic.co/what-is/elk-stack)
 - [Spring REST Dos](https://spring.io/projects/spring-restdocs)
 - [Spring Security Documentation](https://spring.io/projects/spring-security)
 - [Spring Data JPA Documentation](https://spring.io/projects/spring-data-jpa)
@@ -361,8 +251,3 @@ The application is integrated with Prometheus and Grafana for monitoring, and El
 - [Spring Boot Test Documentation](https://docs.spring.io/spring-boot/reference/testing/index.html)
 - [Spring Boot Starter Web Documentation](https://docs.spring.io/spring-boot/reference/web/servlet.html)
 - [Spring Boot Holistic Project overview](https://spring.io/projects/spring-boot)
-
-
-
-
- 

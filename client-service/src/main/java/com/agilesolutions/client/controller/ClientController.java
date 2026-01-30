@@ -50,7 +50,7 @@ public class ClientController {
     )
     @GetMapping(produces = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
-    @Observed(name = "g",
+    @Observed(name = "get-all-clients",
             contextualName = "fetch-all-clients",
             lowCardinalityKeyValues = {"ClientController", "getAllClients"})
     public Flux<Client> getAllClients() {
