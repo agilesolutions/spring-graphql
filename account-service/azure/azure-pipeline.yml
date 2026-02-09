@@ -46,7 +46,7 @@ stages:
           - task: Gradle@2
             displayName: 'build service'
             inputs:
-              gradleWrapperFile: 'gradlew'
+              gradleWrapperFile: '$(Pipeline.Workspace)/s/account-service/gradlew'
               workingDirectory: '$(Pipeline.Workspace)/s/account-service'
               gradleOptions: '-Dorg.gradle.daemon=false'
               tasks: '--info integrationTest'
