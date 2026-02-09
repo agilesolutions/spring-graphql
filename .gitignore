@@ -15,7 +15,7 @@
 
 ### gradle build files
 **/.gradle/
-**/gradle/
+#**/gradle/
 **/build/
-gradlew
-gradlew.bat
+#gradlew
+#gradlew.bat
