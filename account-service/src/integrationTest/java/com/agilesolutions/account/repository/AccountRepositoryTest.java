@@ -4,10 +4,16 @@ import com.agilesolutions.account.entity.Account;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@DataMongoTest
+@ContextConfiguration(classes = {AccountRepository.class})
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 class AccountRepositoryTest extends BaseMongoDBIntegrationTest {
 
 
