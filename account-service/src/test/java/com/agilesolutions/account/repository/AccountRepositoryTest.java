@@ -15,7 +15,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.util.List;
 
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class)
+@DataMongoTest
 @EnableMongoRepositories(basePackages = "com.agilesolutions.account.repository")
 class AccountRepositoryTest extends BaseMongoDBIntegrationTest {
 
