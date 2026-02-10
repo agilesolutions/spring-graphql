@@ -1,16 +1,23 @@
 package com.agilesolutions.client.repository;
 
 import com.agilesolutions.client.entity.Client;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
-import reactor.core.publisher.Mono;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import reactor.test.StepVerifier;
 
-//@DataR2dbcTest
-@EnableR2dbcRepositories(basePackages = "com.agilesolutions.client.repository")
-class ClientRepositoryTest extends BasePGIntegrationTest {
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DataR2dbcTest()
+@Slf4j
+@Import(value = {TestcontainersConfiguration.class})
+class ClientRepositoryTest {
+
+    @Autowired
+    R2dbcEntityTemplate template;
 
     @Autowired
     private ClientRepository repository;
@@ -19,18 +26,20 @@ class ClientRepositoryTest extends BasePGIntegrationTest {
     @Test
     void findByCompany() {
 
-        Mono<Client> result =
-                repository.deleteAll()
-                        .then(repository.save(new Client(null, "John", "A.", "Doe")))
-                        .flatMap(saved -> repository.findById(saved.getId()));
-
-        StepVerifier.create(result)
-                .expectNextMatches(client ->
-                        client.getFirstName().equals("John") &&
-                        client.getMiddleName().equals("A.") &&
-                        client.getLastName().equals("Doe"))
+        this.template.insert(new Client(null, "John", "A.", "Doe"))
+                .flatMap(client ->
+                        repository.findById(client.getId())
+                )
+                .log()
+                .as(StepVerifier::create)
+                .consumeNextWith(client -> {
+                            log.info("saved client: {}", client);
+                            assertThat(client.getFirstName()).isEqualTo("John");
+                            assertThat(client.getMiddleName()).isEqualTo("A.");
+                            assertThat(client.getLastName()).isEqualTo("Doe");
+                        }
+                )
                 .verifyComplete();
-
 
     }
 
