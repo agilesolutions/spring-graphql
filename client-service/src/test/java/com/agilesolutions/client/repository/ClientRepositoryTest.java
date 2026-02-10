@@ -8,7 +8,7 @@ import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-@DataR2dbcTest
+//@DataR2dbcTest
 @EnableR2dbcRepositories(basePackages = "com.agilesolutions.client.repository")
 class ClientRepositoryTest extends BasePGIntegrationTest {
 
