@@ -14,6 +14,6 @@ public interface AccountRepository extends MongoRepository<Account, String> {
     List<Account> findByClientIdIn(List<Long> clientIds);
 
     @Query("{number:'?0'}")
-    Account findAccountByNumber(String number);
+    List<Account> findAccountByNumber(String number);
 
 }
