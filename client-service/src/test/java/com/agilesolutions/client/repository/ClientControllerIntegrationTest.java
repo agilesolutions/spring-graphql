@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataR2dbcTest
 @Testcontainers
 @Slf4j
-//@Import(value = {TestcontainersConfiguration.class})
+@Import(value = {TestcontainersConfiguration.class})
 class ClientControllerIntegrationTest {
 
     @Autowired
