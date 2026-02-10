@@ -15,8 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataR2dbcTest
 @Testcontainers
 @Slf4j
-@Import(value = {TestcontainersConfiguration.class})
-class ClientRepositoryTest {
+//@Import(value = {TestcontainersConfiguration.class})
+class ClientControllerIntegrationTest {
 
     @Autowired
     R2dbcEntityTemplate template;
