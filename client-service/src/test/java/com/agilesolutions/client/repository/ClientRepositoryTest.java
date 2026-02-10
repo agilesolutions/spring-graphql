@@ -4,13 +4,12 @@ import com.agilesolutions.client.entity.Client;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @DataR2dbcTest
-@Testcontainers
+@EnableR2dbcRepositories(basePackages = "com.agilesolutions.client.repository")
 class ClientRepositoryTest extends BasePGIntegrationTest {
 
     @Autowired
