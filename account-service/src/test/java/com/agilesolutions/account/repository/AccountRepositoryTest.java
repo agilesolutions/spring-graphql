@@ -47,6 +47,18 @@ class AccountRepositoryTest extends BaseMongoDBIntegrationTest {
 
     }
 
+    @Test
+    void findByClientIdIn() {
+
+        List<Account> accounts = repository.findByClientIdIn(List.of(1L, 3L, 5L));
+        Assertions.assertNotNull(accounts);
+        Assertions.assertEquals(3, accounts.size());
+        Assertions.assertTrue(accounts.stream().anyMatch(account -> account.getClientId() == 1L));
+        Assertions.assertTrue(accounts.stream().anyMatch(account -> account.getClientId() == 3L));
+        Assertions.assertTrue(accounts.stream().anyMatch(account -> account.getClientId() == 5L));
+
+    }
+
 
 
 }
