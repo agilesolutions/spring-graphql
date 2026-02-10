@@ -3,23 +3,17 @@ package com.agilesolutions.account.repository;
 import com.agilesolutions.account.entity.Account;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.List;
 
-//@ExtendWith(SpringExtension.class)
 @DataMongoTest
 @EnableMongoRepositories(basePackages = "com.agilesolutions.account.repository")
-class AccountRepositoryTest extends BaseMongoDBIntegrationTest {
+class AccountRepositoryIntTest extends BaseMongoDBIntegrationTest {
 
 
     @Autowired
