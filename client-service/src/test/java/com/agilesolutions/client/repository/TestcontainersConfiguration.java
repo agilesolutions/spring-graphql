@@ -19,7 +19,7 @@ class TestcontainersConfiguration {
         */
 
 
-    @Bean
+    //@Bean
     public R2dbcEntityTemplate r2dbcEntityTemplate(ConnectionFactory connectionFactory) {
         return new R2dbcEntityTemplate(connectionFactory);
     }
