@@ -1,10 +1,10 @@
 package com.agilesolutions.client.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Entity
 @Getter
@@ -17,12 +17,12 @@ import lombok.*;
 public class Client extends BaseEntity {
 
     @Id
-    @Column(name="id")
+    @Column(value="id")
     private Long id;
-    @Column(name="first_name")
+    @Column(value="first_name")
     private String firstName;
-    @Column(name="middle_name")
+    @Column(value="middle_name")
     private String middleName;
-    @Column(name="last_name")
+    @Column(value="last_name")
     private String lastName;
 }
