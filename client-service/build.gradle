@@ -52,7 +52,6 @@ dependencies {
     implementation 'org.springframework.retry:spring-retry'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.projectlombok:lombok:1.18.34'
-    //implementation 'com.h2database:h2:1.4.200'
     implementation 'io.r2dbc:r2dbc-h2:1.0.0.RELEASE'
 
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
@@ -74,6 +73,8 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers:2.0.2'
     testImplementation 'org.testcontainers:r2dbc:1.21.4'
     testImplementation 'org.testcontainers:junit-jupiter:1.21.4'
+    runtimeOnly 'io.r2dbc:r2dbc-pool:1.0.2.RELEASE'
+    runtimeOnly 'org.postgresql:r2dbc-postgresql:1.1.1.RELEASE'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'junit:junit:4.4'
     testImplementation 'org.testcontainers:postgresql:1.21.4'
