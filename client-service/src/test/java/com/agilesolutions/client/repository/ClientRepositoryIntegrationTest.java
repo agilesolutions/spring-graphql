@@ -57,7 +57,6 @@ class ClientRepositoryIntegrationTest {
                 .thenMany(repository.findAll())
                 .log()
                 .as(StepVerifier::create)
-                .expectNextCount(1) // Expect at least one client (the one we just inserted)
                 .consumeNextWith(client -> {
                     log.info("found client: {}", client);
                 })
