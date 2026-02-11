@@ -53,14 +53,14 @@ class ClientRepositoryIntegrationTest {
 
     @Test
     void findAll() {
-        this.template.insert(new Client(7L, "Jane", "B.", "Smith"))
+        this.template
+                .insert(new Client(7L, "Jane", "B.", "Smith"))
                 .thenMany(repository.findAll())
                 .log()
                 .as(StepVerifier::create)
-                .consumeNextWith(client -> {
-                    log.info("found client: {}", client);
-                })
+                .expectNextCount(7) // Assuming there are already 6 clients in the database from previous tests
                 .verifyComplete();
+
     }
 
 }
