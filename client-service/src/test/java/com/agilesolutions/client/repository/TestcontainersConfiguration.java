@@ -28,15 +28,4 @@ class TestcontainersConfiguration {
         return new R2dbcEntityTemplate(connectionFactory);
     }
 
-
-//    @Bean
-    public ConnectionFactoryInitializer initializer(ConnectionFactory connectionFactory) {
-        ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();
-        initializer.setConnectionFactory(connectionFactory);
-        CompositeDatabasePopulator populator = new CompositeDatabasePopulator();
-        populator.addPopulators(new ResourceDatabasePopulator(new ClassPathResource("schema.sql")));
-        initializer.setDatabasePopulator(populator);
-        return initializer;
-    }
-
 }
