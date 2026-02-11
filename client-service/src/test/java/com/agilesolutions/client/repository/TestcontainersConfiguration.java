@@ -2,9 +2,7 @@ package com.agilesolutions.client.repository;
 
 import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 
 @TestConfiguration(proxyBeanMethods = false)
 //@EnableR2dbcRepositories

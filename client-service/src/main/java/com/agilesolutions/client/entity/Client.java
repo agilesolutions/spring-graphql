@@ -1,12 +1,10 @@
 package com.agilesolutions.client.entity;
 
-import jakarta.persistence.Entity;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Entity
 @Getter
 @Setter
 @ToString

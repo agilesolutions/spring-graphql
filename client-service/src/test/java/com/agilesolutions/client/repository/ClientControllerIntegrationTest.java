@@ -1,32 +1,21 @@
 package com.agilesolutions.client.repository;
 
-import com.agilesolutions.client.controller.ClientController;
 import com.agilesolutions.client.entity.Client;
-import com.agilesolutions.client.service.ClientService;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.test.StepVerifier;
-
-import java.time.Duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 @DataR2dbcTest
-@Slf4j
-@Import(value = {TestcontainersConfiguration.class})
 // Ensure Flyway is auto-configured even in a slice test
 @ImportAutoConfiguration(FlywayAutoConfiguration.class)
 class ClientControllerIntegrationTest {
@@ -58,6 +47,22 @@ class ClientControllerIntegrationTest {
                 )
                 .verifyComplete();
 
+    }
+
+    @Test
+    void findAll() {
+        this.template.insert(new Client(7L, "Jane", "B.", "Smith"))
+                .thenMany(repository.findAll())
+                .log()
+                .as(StepVerifier::create)
+                .expectNextCount(1) // Expect at least one client (the one we just inserted)
+                .consumeNextWith(client -> {
+                    log.info("found client: {}", client);
+                    assertThat(client.getFirstName()).isEqualTo("Jane");
+                    assertThat(client.getMiddleName()).isEqualTo("B.");
+                    assertThat(client.getLastName()).isEqualTo("Smith");
+                })
+                .verifyComplete();
     }
 
 }
