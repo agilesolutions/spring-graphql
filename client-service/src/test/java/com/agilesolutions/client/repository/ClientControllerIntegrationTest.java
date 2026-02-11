@@ -1,7 +1,10 @@
 package com.agilesolutions.client.repository;
 
+import com.agilesolutions.client.controller.ClientController;
 import com.agilesolutions.client.entity.Client;
+import com.agilesolutions.client.service.ClientService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -10,18 +13,23 @@ import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.test.StepVerifier;
+
+import java.time.Duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 @DataR2dbcTest
 @Slf4j
-@Import(value = {TestcontainersConfiguration.class})
+//@Import(value = {TestcontainersConfiguration.class})
 // Ensure Flyway is auto-configured even in a slice test
 @ImportAutoConfiguration(FlywayAutoConfiguration.class)
+@ContextConfiguration(classes = {ClientService.class})
 class ClientControllerIntegrationTest {
 
     @ServiceConnection
@@ -33,6 +41,19 @@ class ClientControllerIntegrationTest {
     @Autowired
     private ClientRepository repository;
 
+    @Autowired
+    private ClientService clientService;
+
+    private WebTestClient webTestClient;
+
+    @BeforeEach
+    void setUp() {
+        webTestClient = WebTestClient.bindToController(new ClientController(clientService)).build();
+        webTestClient
+                .mutate()
+                .responseTimeout(Duration.ofSeconds(30))
+                .build();
+    }
 
     @Test
     void findByCompany() {

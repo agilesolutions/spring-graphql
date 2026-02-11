@@ -19,7 +19,6 @@ public class Client extends BaseEntity {
     @Id
     @Column(name="id")
     private Long id;
-    @Id
     @Column(name="first_name")
     private String firstName;
     @Column(name="middle_name")
