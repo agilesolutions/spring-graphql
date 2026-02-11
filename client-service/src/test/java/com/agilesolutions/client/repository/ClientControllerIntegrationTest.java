@@ -26,10 +26,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 @DataR2dbcTest
 @Slf4j
-//@Import(value = {TestcontainersConfiguration.class})
+@Import(value = {TestcontainersConfiguration.class})
 // Ensure Flyway is auto-configured even in a slice test
 @ImportAutoConfiguration(FlywayAutoConfiguration.class)
-@ContextConfiguration(classes = {ClientService.class})
 class ClientControllerIntegrationTest {
 
     @ServiceConnection
@@ -40,20 +39,6 @@ class ClientControllerIntegrationTest {
 
     @Autowired
     private ClientRepository repository;
-
-    @Autowired
-    private ClientService clientService;
-
-    private WebTestClient webTestClient;
-
-    @BeforeEach
-    void setUp() {
-        webTestClient = WebTestClient.bindToController(new ClientController(clientService)).build();
-        webTestClient
-                .mutate()
-                .responseTimeout(Duration.ofSeconds(30))
-                .build();
-    }
 
     @Test
     void findByCompany() {
