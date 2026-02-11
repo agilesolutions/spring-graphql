@@ -60,9 +60,9 @@ class ClientRepositoryIntegrationTest {
                 .expectNextCount(1) // Expect at least one client (the one we just inserted)
                 .consumeNextWith(client -> {
                     log.info("found client: {}", client);
-                    assertThat(client.getFirstName()).isEqualTo("Alice");
-                    assertThat(client.getMiddleName()).isEqualTo("C.");
-                    assertThat(client.getLastName()).isEqualTo("Johnson");
+                    assertThat(client.getFirstName()).isEqualTo("Jane");
+                    assertThat(client.getMiddleName()).isEqualTo("B.");
+                    assertThat(client.getLastName()).isEqualTo("Smith");
                 })
                 .verifyComplete();
     }
