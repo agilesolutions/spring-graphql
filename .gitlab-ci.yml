@@ -54,10 +54,10 @@ unit-tests:   # This job runs in the test stage.
     - echo "Running unit tests... "
     - cd $CI_PROJECT_DIR/client-service
     - gradle test
-#    - cd $CI_PROJECT_DIR/account-service
-#    - gradle test
-#    - cd $CI_PROJECT_DIR/gateway
-#    - gradle test
+    - cd $CI_PROJECT_DIR/account-service
+    - gradle test
+    - cd $CI_PROJECT_DIR/gateway
+    - gradle test
 
 #integration-tests:   # This job runs in the test stage.
 #  stage: test
