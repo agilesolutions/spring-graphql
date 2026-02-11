@@ -1,5 +1,5 @@
-INSERT INTO share values (1, 'AAPL',100,current_timestamp());
-INSERT INTO share values (2, 'AMZN',100,current_timestamp());
-INSERT INTO share values (3, 'META',100,current_timestamp());
-INSERT INTO share values (4, 'MSFT',100,current_timestamp());
-INSERT INTO share values (5, 'NVDA',100,current_timestamp());
+insert into client(id, first_name, middle_name, last_name) values (1, 'John', 'A.', 'Doe');
+insert into client(id, first_name, middle_name, last_name) values (2, 'Jane', 'B.', 'Smith');
+insert into client(id, first_name, middle_name, last_name) values (3, 'Alice', 'C.', 'Johnson');
+insert into client(id, first_name, middle_name, last_name) values (4, 'Bob', 'D.', 'Brown');
+insert into client(id, first_name, middle_name, last_name) values (5, 'Charlie', 'E.', 'Davis');

@@ -53,6 +53,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.projectlombok:lombok:1.18.34'
     implementation 'io.r2dbc:r2dbc-h2:1.0.0.RELEASE'
+    implementation 'org.flywaydb:flyway-core'
 
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
