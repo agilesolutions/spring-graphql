@@ -1,6 +1,7 @@
 package com.agilesolutions.client.repository;
 
 import com.agilesolutions.client.entity.Client;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -16,9 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 @DataR2dbcTest
+@Slf4j
 // Ensure Flyway is auto-configured even in a slice test
 @ImportAutoConfiguration(FlywayAutoConfiguration.class)
-class ClientControllerIntegrationTest {
+class ClientRepositoryIntegrationTest {
 
     @ServiceConnection
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
