@@ -37,7 +37,7 @@ class ClientControllerIntegrationTest {
     @Test
     void findByCompany() {
 
-        this.template.insert(new Client(6, "John", "A.", "Doe"))
+        this.template.insert(new Client(6L, "John", "A.", "Doe"))
                 .flatMap(client ->
                         repository.findById(client.getId())
                 )
