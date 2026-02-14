@@ -53,6 +53,8 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
+    // scalars
+    implementation 'com.graphql-java:graphql-java-extended-scalars:21.0'
 
     // Actuator and Micrometer, Prometheus setups
     implementation 'org.springframework.boot:spring-boot-starter-aop'

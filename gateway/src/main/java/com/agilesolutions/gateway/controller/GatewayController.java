@@ -3,6 +3,7 @@ package com.agilesolutions.gateway.controller;
 import com.agilesolutions.gateway.config.WebfluxConfig;
 import com.agilesolutions.gateway.domain.Account;
 import com.agilesolutions.gateway.domain.Client;
+import com.agilesolutions.gateway.exception.ClientNotFoundException;
 import com.agilesolutions.gateway.rest.AccountHttpClient;
 import com.agilesolutions.gateway.rest.ClientHttpClient;
 import com.agilesolutions.gateway.service.StockService;
@@ -44,7 +45,11 @@ public class GatewayController {
     @QueryMapping
     public Flux<Client> clients() {
         log.info("Starting to fetch client infos");
-        return clientHttpClient.getAllClients();
+        return clientHttpClient.getAllClients().
+                doOnError(throwable -> {
+                        log.error("Error fetching clients");
+                        throw new ClientNotFoundException("Failed to fetch clients");});
+
     }
 
     @BatchMapping(typeName = "Client")

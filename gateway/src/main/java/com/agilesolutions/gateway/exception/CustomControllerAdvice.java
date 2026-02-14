@@ -1,5 +1,6 @@
 package com.agilesolutions.gateway.exception;
 
+import com.agilesolutions.gateway.domain.Client;
 import graphql.GraphQLError;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.NonNull;
@@ -28,16 +29,16 @@ public class CustomControllerAdvice extends ResponseStatusExceptionHandler {
     Map<String, Object> extMap = new HashMap<>();
 
     @GraphQlExceptionHandler
-    public GraphQLError handle(@NonNull Throwable ex, @NonNull DataFetchingEnvironment environment) {
-        extMap.put("errorCode", "ACCOUNT_NOT_FOUND");
-        extMap.put("userMessage", "The account you are trying to access does not exist.");
+    public GraphQLError handleClientExceptions(@NonNull ClientNotFoundException ex, @NonNull DataFetchingEnvironment environment) {
+        extMap.put("errorCode", "CLIENT_NOT_FOUND");
+        extMap.put("userMessage", "The client you are trying to access does not exist.");
         extMap.put("timestamp", Instant.now().toString());
         extMap.put("actionableSteps", "Please verify the account ID and try again.");
 
         return GraphQLError
                 .newError()
                 .errorType(ErrorType.BAD_REQUEST)
-                .message("Sorry, we couldn't find the requested account. Please check the account ID and try again : " + ex.getMessage())
+                .message("Sorry, we couldn't find the requested client. Please check the client ID and try again : " + ex.getMessage())
                 .path(environment.getExecutionStepInfo().getPath())
                 .location(environment.getField().getSourceLocation())
                 .extensions(extMap)
