@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 public record Account (
@@ -47,5 +47,5 @@ public record Account (
         @Schema(
                 description = "MaturityDate of account", example = "2024-12-31"
         )
-        LocalDate maturityDate
+        LocalDateTime maturityDate
 ) {}

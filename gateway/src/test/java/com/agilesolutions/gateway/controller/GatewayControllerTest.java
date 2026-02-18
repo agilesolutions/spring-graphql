@@ -12,6 +12,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.BDDMockito.*;
@@ -144,8 +145,8 @@ class GatewayControllerTest {
         // Additional mocking for accounts and stock service can be added here
         given(accountHttpClient.getAllAccounts(List.of(1L, 2L)))
                 .willReturn(Flux.just(
-                        new com.agilesolutions.gateway.domain.Account("ACC123", 1L, "Savings Account", "Retail", 950, 1000.0f, LocalDate.of(2025, 12, 31)),
-                        new com.agilesolutions.gateway.domain.Account("ACC456", 2L, "Checking Account", "Retail", 1900, 2000.0f, LocalDate.of(2024, 11, 30))
+                        new com.agilesolutions.gateway.domain.Account("ACC123", 1L, "Savings Account", "Retail", 950, 1000.0f, LocalDateTime.of(2025, 12, 31, 0, 0)),
+                        new com.agilesolutions.gateway.domain.Account("ACC456", 2L, "Checking Account", "Retail", 1900, 2000.0f, LocalDateTime.of(2024, 11, 30,0 ,0 ))
                 ));
 
         given(stockService.getLatestStockPrices("ACC123"))
@@ -182,7 +183,7 @@ class GatewayControllerTest {
                 .path("clients[0].accounts")
                 .entityList(com.agilesolutions.gateway.domain.Account.class)
                 .hasSize(1)
-                .containsExactly(new Account("ACC123", null, "Savings Account", "Retail", 950, 1100.0f, LocalDate.of(2025,12,31))
+                .containsExactly(new Account("ACC123", null, "Savings Account", "Retail", 950, 1100.0f, LocalDateTime.of(2025,12,31,0,0))
                 );
 
 

@@ -12,6 +12,7 @@ import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -49,7 +50,7 @@ class AccountServiceTest {
                         .lineOfBusiness("Retail")
                         .amount(1000)
                         .openingDayBalance(500.0f)
-                        .maturityDate(LocalDate.of(2025, 12, 31))
+                        .maturityDate(LocalDateTime.of(2025, 12, 31,0 ,0))
                         .build(),
                 com.agilesolutions.account.entity.Account.builder()
                         .id("2")
@@ -59,7 +60,7 @@ class AccountServiceTest {
                         .lineOfBusiness("Corporate")
                         .amount(5000)
                         .openingDayBalance(2000.0f)
-                        .maturityDate(LocalDate.of(2026, 6, 30))
+                        .maturityDate(LocalDateTime.of(2026, 6, 30,0,0))
                         .build()
         ));
 

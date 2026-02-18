@@ -32,8 +32,8 @@ public class FakeTokenController {
 
         // Claims inside JWT
         JWTClaimsSet claims = new JWTClaimsSet.Builder()
-                .subject("service-client")
-                .issuer("http://localhost:8080")
+                .subject("gateway")
+                .issuer("http://localhost:8082")
                 .audience("my-api")
                 .claim("roles", java.util.List.of("admin", "user"))
                 .claim("scope", "read write")

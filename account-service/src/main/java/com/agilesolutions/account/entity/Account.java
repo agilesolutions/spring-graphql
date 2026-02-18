@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,5 +43,5 @@ public class Account {
     @Positive(message = "Account.openingDayBalance must be a positive number")
     private Float openingDayBalance;
 
-    private LocalDate maturityDate;
+    private LocalDateTime maturityDate;
 }

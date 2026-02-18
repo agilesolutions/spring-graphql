@@ -1,6 +1,5 @@
 package com.agilesolutions.gateway.exception;
 
-import com.agilesolutions.gateway.domain.Client;
 import graphql.GraphQLError;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.NonNull;

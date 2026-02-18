@@ -62,18 +62,9 @@ public class GatewayController {
 
         var updateAccounts = accounts.map(account -> {
             log.info("Fetched account: {}", account);
-            Float balance = stockService.getLatestStockPrices(account.number()).price();
-            Account newAccount =  Account.builder()
-                    .openingDayBalance(balance)
-                    .number(account.number())
-                    .clientId(account.clientId())
-                    .description(account.description())
-                    .lineOfBusiness(account.lineOfBusiness())
-                    .maturityDate(account.maturityDate())
-                    .amount(account.amount())
-                    .build();
-
-            return newAccount;
+            Float balance = stockService.getLatestStockPrices(account.getNumber()).price();
+            account.setOpeningDayBalance(balance);
+            return account;
         })
         .onErrorResume(Flux::error);
 
@@ -82,7 +73,7 @@ public class GatewayController {
                 .map(accountList -> {
 
                     Map<Long, List<Account>> collect = accountList.stream()
-                            .collect(Collectors.groupingBy(Account::clientId));
+                            .collect(Collectors.groupingBy(Account::getClientId));
 
                     return clients.stream()
                             .collect(Collectors.toMap(client -> client,
