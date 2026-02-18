@@ -70,6 +70,19 @@ This diagram illustrates the architecture of the Spring Boot application and its
 - Kubernetes one node cluster running on Docker for Desktop
 - GitLab account with a project
 
+## GraphQL API testing with Bruno
+Bruno is a GraphQL client that allows you to test and interact with GraphQL APIs. It provides a user-friendly interface for sending GraphQL queries and mutations, making it easier to explore and debug your GraphQL endpoints. You can use Bruno to test the GraphQL API of this Spring Boot application by sending queries and mutations to the gateway service, which will then route the requests to the appropriate microservices.
+To use Bruno, you can follow these steps:
+1. Download and install Bruno from the official website: https://bruno.dev/
+2. Open Bruno and create a new GraphQL endpoint by entering the URL of the gateway service (e.g., http://localhost:30082/graphql).
+3. Use the GraphQL query editor in Bruno to write and send GraphQL queries and mutations to the gateway service.
+4. Analyze the responses from the gateway service to verify that the GraphQL API is working correctly and that the data is being retrieved and manipulated as expected.
+5. You can also use Bruno's features such as variable support, query history, and response formatting to enhance your testing experience and make it easier to work with the GraphQL API.
+6. For more information on how to use Bruno and its features, you can refer to the official documentation: https://bruno.dev/docs/
+
+Bruno collection and request to test the GraphQL API can be found on [this repository](/bruno/test-graphql/clients%20k8s.bru). You can import this collection into Bruno to quickly test the GraphQL API of this Spring Boot application.
+
+
 ## Project Structure
 ```
 spring-graphql/

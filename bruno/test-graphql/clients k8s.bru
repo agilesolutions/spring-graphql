@@ -1,0 +1,36 @@
+meta {
+  name: clients k8s
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: http://localhost:30082/graphql
+  body: graphql
+  auth: inherit
+}
+
+body:graphql {
+  {
+    clients {
+      id
+      firstName
+      lastName
+      middleName
+      accounts {
+        number
+        description
+        lineOfBusiness
+        amount
+        openingDayBalance
+        maturityDate
+      }
+    }
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
