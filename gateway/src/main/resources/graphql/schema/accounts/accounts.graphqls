@@ -1,0 +1,27 @@
+extend type Mutation {
+    addAccount(account: AccountInput!): Boolean
+    editAccount(account: AccountInput!): Account
+    deleteAccount(accountID: ID!): Boolean
+}
+
+type Account {
+    id: ID!
+    clientId: Int!
+    number: String!
+    description: String!
+    lineOfBusiness: String!
+    amount: Int!
+    openingDayBalance: PositiveFloat!
+    maturityDate: DateTime!
+}
+
+input AccountInput {
+    id: ID!
+    clientId: Int!
+    number: String!
+    description: String!
+    lineOfBusiness: String!
+    amount: Int!
+    openingDayBalance: PositiveFloat!
+    maturityDate: DateTime!
+}

@@ -1,0 +1,26 @@
+extend type Query {
+    clients: [Client]
+}
+extend type Mutation {
+    addClient(account: ClientInput!): Boolean
+    editClient(account: ClientInput!): Client
+    deleteClient(accountID: ID!): Boolean
+}
+
+
+type Client {
+    id: ID!
+    firstName: String!
+    middleName: String
+    lastName: String!
+    accounts: [Account]!
+}
+
+
+input ClientInput {
+    id: ID!
+    firstName: String!
+    middleName: String
+    lastName: String!
+    accounts: [Account]!
+}
