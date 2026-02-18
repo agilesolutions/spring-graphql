@@ -51,6 +51,13 @@ This project is a comprehensive Spring Boot application that integrates various 
 - API Gateway with Spring Cloud Gateway
 - Continuous Integration and Continuous Deployment (CI/CD) using GitLab CI/CD and FluxCD
 
+## FluxCD in short
+FluxCD is a GitOps tool that automates the deployment of applications to Kubernetes clusters. It continuously monitors a Git repository for changes and applies those changes to the cluster, ensuring that the desired state defined in the Git repository is always reflected in the cluster. This approach allows for version control, collaboration, and easy rollback of changes, making it an ideal solution for managing Kubernetes deployments in a GitOps workflow.    
+Operating as a "pull-based" agent inside the cluster, it automates deployment by watching for repository changes, making it highly secure, auditable, and reliable for managing infrastructure and application updates.
+This project demonstrates how to set up FluxCD to deploy Spring Boot MicroServices, Prometheus and Grafana to a local Kubernetes cluster, showcasing the benefits of GitOps for continuous deployment and infrastructure management.
+
+FluxCD manifest files can be found on [this repository](https://github.com/agilesolutions/fluxcd-infra). 
+
 ## Overview Platform Architecture
 This diagram illustrates the architecture of the Spring Boot application and its integration with various components and services.
 
